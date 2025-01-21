@@ -1,0 +1,137 @@
+{% import 'macros/math.html' as macro_math -%}
+{% extends "_base.html" %}
+
+{% block page %}post{% endblock page %}
+{% block lang %}
+{% set blog_section_path = config.extra.blog_section_path | trim_start_matches(pat="/") %}
+{% set section_md_path = blog_section_path ~ "/_index.md" %}
+{% set section = get_section(path=section_md_path, metadata_only=true) %}
+{% if page.extra.lang %}{{ page.extra.lang }}{% elif section.extra.lang %}{{ section.extra.lang }}{% else %}{{ page.lang }}{% endif %}
+{% endblock lang %}
+{% block title %}{{ page.title }}{% endblock title %}
+{% block desc %}
+  {% if page.summary %}
+    {% set desc = page.summary %}
+  {% elif page.description %}
+    {% set desc = page.description %}
+  {% endif %}
+  {% if desc %}
+  <meta name="description" content="{{ desc }}">
+  {% endif %}
+{% endblock desc %}
+
+{% block head %}
+{% if config.markdown.highlight_theme == "css" %}
+<link id="hl" rel="stylesheet" type="text/css" href="/hl-{% if config.extra.force_theme == "dark" %}dark{% else %}light{% endif %}.css" />
+{% endif %}
+{% if page.extra.math %}
+  {{ macro_math::math_render(style = page.extra.math) }}
+{% endif %}
+{% endblock head %}
+
+{% block content %}
+{% include "_header.html" %}
+
+<div class="flex flex-col lg:flex-row max-w-6xl mx-auto px-6 py-10">
+  <!-- Sidebar -->
+  <aside class="lg:w-1/4 mb-6 lg:mb-0 lg:pr-6">
+    {% if page.extra.toc is defined %}
+      {% set show_toc = page.extra.toc %}
+    {% else %}
+      {% set show_toc = config.extra.toc %}
+    {% endif %}
+
+
+    {% if show_toc and page.toc %}
+    <nav>
+      <h2 class="text-lg font-semibold mb-4">Table of Contents</h2>
+      <ul class="space-y-2">
+        {% for h2 in page.toc %}
+        <li>
+          <a href="#{{ h2.id | safe }}" class="block text-blue-600 dark:text-blue-300 hover:underline">{{ h2.title }}</a>
+          {% if h2.children %}
+          <ul class="ml-4 space-y-1">
+            {% for h3 in h2.children %}
+            <li>
+              <a href="#{{ h3.id | safe }}" class="block text-gray-600 dark:text-gray-400 hover:underline">{{ h3.title }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
+    {% endif %}
+    {% if config.extra.back_to_top %}
+    <button id="back-to-top" aria-label="Back to top" class="mt-6 p-2 bg-gray-200 dark:bg-gray-700 rounded shadow hover:bg-gray-300 dark:hover:bg-gray-600">
+      {% set icon = load_data(path="static/icon/arrow-up.svg") %}
+      {{ icon | safe }}
+    </button>
+    {% endif %}
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1">
+    <article class="prose dark:prose-invert">
+      <h1 class="text-3xl font-bold">{{ page.title }}</h1>
+      <div class="mt-4 mb-6 text-sm text-gray-600 dark:text-gray-400">
+        <span class="block">Published on {{ page.date | date }}</span>
+        {% if page.updated and page.updated != page.date %}
+        <span class="block">Updated on {{ page.updated | date }}</span>
+        {% endif %}
+      </div>
+
+      {% if page.extra.display_tags is defined %}
+        {% set display_tags = page.extra.display_tags %}
+      {% else %}
+        {% set display_tags = config.extra.display_tags %}
+      {% endif %}
+
+      {% if page.taxonomies.tags and display_tags %}
+      <div class="flex flex-wrap gap-2 mb-6">
+        {% for tag in page.taxonomies.tags %}
+        <a href="{{ config.base_url }}/tags/{{ tag | slugify }}" class="px-2 py-1 bg-blue-100 text-blue-600 rounded hover:bg-blue-200">{{ tag }}</a>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if page.extra.truncate_summary is defined %}
+        {% set truncate_summary = page.extra.truncate_summary %}
+      {% else %}
+        {% set truncate_summary = config.extra.truncate_summary %}
+      {% endif %}
+
+      {% if truncate_summary and page.summary %}
+        {{ page.content | trim_start_matches(pat=page.summary) | safe }}
+      {% else %}
+        {{ page.content | safe }}
+      {% endif %}
+    </article>
+
+    {% if page.extra.comment is defined %}
+      {% set show_comment = page.extra.comment %}
+    {% else %}
+      {% set show_comment = config.extra.comment %}
+    {% endif %}
+
+    {% if show_comment %}
+    <div class="giscus"></div>
+    {% include "_giscus_script.html" %}
+    {% endif %}
+
+  </main>
+</div>
+
+{% include "_footer.html" %}
+{% endblock content %}
+
+{% block script %}
+<script src="/js/lightense.min.js"></script>
+{% if page.extra.mermaid %}
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true });
+</script>
+{% endif %}
+{% endblock script %}

@@ -1,0 +1,54 @@
+<header>
+  <div class="bg-stone-300 dark:bg-stone-700 py-1">
+    <!-- Parent container with centered content -->
+    <div class="flex justify-between items-center max-w-prose mx-auto px-5">
+      <!-- Left section (logo/avatar + navigation) -->
+      <nav class="flex items-center gap-2">
+        {% if config.extra.avatar %}
+        <img class="h-12 rounded-full" src="{{ config.base_url }}/{{ config.extra.avatar }}" alt="avatar">
+        {% endif %}
+        <div class="flex items-center">
+          {% if config.extra.home %}
+          <a class="text-xl font-semibold hover:underline" href="{{ config.base_url }}">{{ config.extra.home }}</a>
+          {% else %}
+          <a class="text-xl font-semibold hover:underline" href="{{ config.base_url }}">{{ config.extra.id }}</a>
+          {% endif %}
+          {% if page.path %}
+          {% set page_array = page.path | replace(from="/", to=" ") | trim | split(pat=" ") %}
+            {% for path in page_array %}
+            <span class="text-xl mx-1">{{ config.extra.nav_separator }}</span>
+            {% set current_path = page_array | slice(end=loop.index) | join(sep="/") %}
+            <a class="text-xl font-medium hover:underline" href="{{ config.base_url }}/{{current_path}}">{{ path }}</a>
+            {% endfor %}
+          {% elif section.path %}
+          <span class="text-xl mx-1">{{ config.extra.nav_separator }}</span>
+          <a class="text-xl font-medium hover:underline" href="{{ config.base_url }}{{section.path}}">{{ section.path | replace(from="/", to="") }}</a>
+          {% endif %}
+        </div>
+      </nav>
+      
+      <!-- Right section (RSS + theme toggle) -->
+      <div class="flex items-center gap-3">
+        {% if section.path and section.path != "/projects/" %}
+        {% set rss_icon = load_data(path="static/icon/rss.svg") %}
+        {% if section.generate_feed -%}
+        <a href="{{ config.base_url }}/blog/{{ config.feed_filename }}" aria-label="rss feed" target="_blank">
+          <span class="w-6 h-6">{{ rss_icon | safe }}</span>
+        </a>
+        {% elif config.generate_feed -%}
+        <a href="{{ config.base_url }}/{{ config.feed_filename }}" aria-label="rss feed" target="_blank">
+          <span class="w-6 h-6">{{ rss_icon | safe }}</span>
+        </a>
+        {% endif %}
+        {% endif %}
+
+        {% set moon_icon = load_data(path="static/icon/moon.svg") %}
+        {% set sun_icon = load_data(path="static/icon/sun.svg") %}
+        <button id="theme-toggle" aria-label="theme switch" data-moon-icon="{{ moon_icon }}" data-sun-icon="{{ sun_icon }}" class="w-6 h-6 flex items-center justify-center">
+          <span class="hidden dark:inline-block">{{ sun_icon | safe }}</span>
+          <span class="inline-block dark:hidden">{{ moon_icon | safe }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
