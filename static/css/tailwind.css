@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.w-6.h-6 {
+    vertical-align: middle;
+  }
+  

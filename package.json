@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "@tailwindcss/typography": "^0.5.16",
+    "autoprefixer": "^10.4.20",
+    "parcel": "^2.13.3",
+    "postcss": "^8.5.1",
+    "postcss-cli": "^11.0.0",
+    "tailwindcss": "^3.4.17"
+  },
+  "scripts": {
+    "build": "parcel build static/styles/styles.css --dist-dir static/styles --no-source-maps",
+    "watch": "parcel watch static/styles/styles.css --dist-dir static/styles --no-hmr --no-source-maps"
+  }
+}
