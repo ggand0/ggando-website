@@ -1,12 +1,9 @@
 <header>
-  <div class="bg-stone-300 dark:bg-stone-700 py-1">
+  <div class="py-3"> <!-- Increased vertical padding -->
     <!-- Parent container with centered content -->
     <div class="flex justify-between items-center max-w-prose mx-auto px-5">
       <!-- Left section (logo/avatar + navigation) -->
       <nav class="flex items-center gap-2">
-        {% if config.extra.avatar %}
-        <img class="h-12 rounded-full" src="{{ config.base_url }}/{{ config.extra.avatar }}" alt="avatar">
-        {% endif %}
         <div class="flex items-center">
           {% if config.extra.home %}
           <a class="text-xl font-semibold hover:underline" href="{{ config.base_url }}">{{ config.extra.home }}</a>
@@ -50,5 +47,7 @@
         </button>
       </div>
     </div>
+    <!-- Divider -->
+    <div class="border-b border-gray-300 dark:border-gray-700 max-w-prose mx-auto mt-2"></div>
   </div>
 </header>

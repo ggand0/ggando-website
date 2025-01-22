@@ -4,5 +4,45 @@
 
 .w-6.h-6 {
     vertical-align: middle;
-  }
-  
+}
+aside {
+    position: sticky; /* Ensures ToC stays visible while scrolling */
+    top: 1rem; /* Distance from the top of the viewport */
+    max-height: calc(100vh - 2rem); /* Prevent overflow if ToC is too long */
+    overflow-y: auto; /* Allow scrolling within the ToC */
+    padding-right: 1rem; /* Add spacing for readability */
+    background-color: transparent; /* Fully transparent background */
+    backdrop-filter: none; /* Ensure no blur effect */
+    -webkit-backdrop-filter: none; /* Safari support */
+    border-radius: 0; /* Remove rounded corners */
+    box-shadow: none; /* Remove shadow */
+    border: none; /* Ensure no border is applied */
+}
+
+@media (max-width: 1024px) {
+    aside {
+        position: relative; /* Disable sticky behavior on smaller screens */
+        top: unset;
+        max-height: unset;
+        overflow: visible;
+        background-color: transparent; /* Fully transparent on smaller screens */
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        box-shadow: none; /* Remove shadow for simplicity */
+    }
+}
+
+.layout-container {
+    display: flex; /* Create a flexbox layout */
+    gap: 2rem; /* Add spacing between ToC and content */
+}
+
+main {
+    flex: 1; /* Allow the main content to take the remaining space */
+}
+
+@media (max-width: 1024px) {
+    .layout-container {
+        flex-direction: column; /* Stack ToC and content vertically */
+    }
+}

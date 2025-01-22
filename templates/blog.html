@@ -10,7 +10,7 @@
 {% block content %}
 {% include "_header.html" %}
 <div class="flex justify-center">
-  <main class="py-16 px-6 max-w-5xl w-full">
+  <main class="py-16 px-6 max-w-prose w-full">
     {% if config.extra.blog_categorized %}
     {% for category, posts in section.pages | group_by(attribute="taxonomies.categories.0") %}
     {% set category_name = category %}

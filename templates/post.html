@@ -32,16 +32,15 @@
 {% block content %}
 {% include "_header.html" %}
 
-<div class="flex flex-col lg:flex-row max-w-6xl mx-auto px-6 py-10">
-  <!-- Sidebar -->
-  <aside class="lg:w-1/4 mb-6 lg:mb-0 lg:pr-6">
+<div class="flex flex-col lg:flex-row-reverse max-w-6xl mx-auto px-6 py-10">
+  <!-- Sidebar (ToC) -->
+  <aside class="lg:w-1/4 mb-6 lg:mb-0 lg:pl-6" style="position: sticky; top: 10px;">
     {% if page.extra.toc is defined %}
       {% set show_toc = page.extra.toc %}
     {% else %}
       {% set show_toc = config.extra.toc %}
     {% endif %}
-
-
+  
     {% if show_toc and page.toc %}
     <nav>
       <h2 class="text-lg font-semibold mb-4">Table of Contents</h2>
@@ -70,10 +69,11 @@
     </button>
     {% endif %}
   </aside>
+  
 
   <!-- Main Content -->
-  <main class="flex-1">
-    <article class="prose dark:prose-invert">
+  <main class="flex flex-col lg:flex-row-reverse max-w-6xl mx-auto px-6 py-10 gap-6">
+    <article class="prose dark:prose-invert font-normal">
       <h1 class="text-3xl font-bold">{{ page.title }}</h1>
       <div class="mt-4 mb-6 text-sm text-gray-600 dark:text-gray-400">
         <span class="block">Published on {{ page.date | date }}</span>
