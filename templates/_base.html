@@ -19,7 +19,9 @@
   {% include "_head_extend.html" %}
 </head>
 
-<body class="{% block page %}{% endblock page%}{% if config.extra.force_theme == "dark" %}dark{% endif %}">
+<!--<body class="{% block page %}{% endblock page%}{% if config.extra.force_theme == "dark" %}dark{% endif %}">-->
+  <body class="{% if page_class is defined %}{{ page_class }} {% endif %}bg-bg text-text dark:bg-dark-mode dark:text-white {% if config.extra.force_theme == 'dark' %}dark{% endif %}">
+
   {% if not config.extra.force_theme %}
   <script>
     const theme = sessionStorage.getItem('theme');
