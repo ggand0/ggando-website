@@ -1,7 +1,27 @@
 [[project]]
-name = ""
-desc = ""
-tags = ["", ""]
+name = "ViewSkater"
+desc = "A fast data viewer for viewing a large number of images, written in Rust. I always had the pain of having to manually plot image samples with matplotlib, or using slow built-in image viewers during explatory data analysis (EDA) for ML projects. This desktop app aims to alleviate this issue by dynamically caching images and providing UI with a responsive slider and a dual-pane view (which I can extend to N panes later)."
+tags = ["Rust", "Iced", "wgpu"]
+img = "https://ggando.b-cdn.net/vs0.png"
+links = [
+  { name = "github", url = "https://github.com/ggand0/viewskater" },
+  { name = "website", url = "https://viewskater.com/" },
+]
+
+[[project]]
+name = "Instance segmentation demo (2022/08)"
+desc = "A tech demo on performing cloud inference with GPU/CPU servers. This was a remove.bg clone where you can drag&drop images to do semseg and cut out segmented regions. Currently discontinued but I will host another cool model in the near future again!"
+tags = ["Python", "PyTorch", "Javascript", "Vue.js", "Nuxt.js", "GCP"]
+img = "https://ggando.b-cdn.net/cc1.png"
+links = [
+  { name = "", url = "" },
+  { name = "", url = "" },
+]
+
+[[project]]
+name = "Synthetic data generation with Unreal Engine 5 (2023/02-06)"
+desc = "A prototype UE5 project for generating synthetic instance segmentation dataset."
+tags = ["Unreal Engine", "C++", "Python"]
 img = ""
 links = [
   { name = "", url = "" },
@@ -9,9 +29,40 @@ links = [
 ]
 
 [[project]]
-name = ""
-desc = ""
-tags = ["", ""]
+name = "Synthetic data generation demo with Unity Perception (2022/11-12)"
+desc = "A simple Unity Perception project to generate images of defected metal parts. Did this project as a PoC for one of my clients."
+tags = ["Unity", "Unity Perception"]
+img = "https://ggando.b-cdn.net/up1.png"
+links = [
+  { name = "", url = "" },
+  { name = "", url = "" },
+]
+
+[[project]]
+name = "People tracking at indoor scenes @ Araya, Inc. (2022)"
+desc = "Delivered proof of concept (PoC) results to a client regarding vehicle and person tracking for indoor scenes. Developed object tracking models, video processing and model training pipelines. "
+tags = ["Python", "PyTorch", "OpenCV"]
+img = ""
+links = [
+  { name = "", url = "" },
+  { name = "", url = "" },
+]
+
+
+[[project]]
+name = "Semantic segmentation for arc welding robots @ Araya, Inc. (2021-2022)"
+desc = "Delivered semantic segmentation models and relevant image processing Python APIs for arc welding robot manipulation. The final prototype robot using our model achieved automatic line tracking capability while performing arc welding in real time."
+tags = ["Python", "PyTorch", "OpenCV"]
+img = ""
+links = [
+  { name = "", url = "" },
+  { name = "", url = "" },
+]
+
+[[project]]
+name = "Binary action recognition of pedestrians @ Perceptive Automata, Inc. (2020)"
+desc = "Delivered an action recognition model which was used for internal video analysis. We used a recurrent-convolutional network to predict whether the pedestrian in a given ROI is standing or walking."
+tags = ["Python", "PyTorch"]
 img = ""
 links = [
   { name = "", url = "" },

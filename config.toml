@@ -50,6 +50,7 @@ avatar = "img/profile_pic.jpeg"
 display_id = true
 display_bio = true
 display_avatar = true
+projects_page = true                  # Display projects page
 
 recent = false
 recent_max = 5
