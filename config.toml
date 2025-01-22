@@ -43,7 +43,7 @@ anchors = "on"
 [extra]
 
 name = "Gota Gando"
-id = "gtgando"
+id = "ggando"
 bio = "Freelance machine learning engineer based in Tokyo. Deep Learning, Computer Vision, Rust"
 avatar = "img/profile_pic.jpeg"
 
@@ -65,9 +65,10 @@ sections = [
 blog_section_path = "/posts"
 
 links = [
-    { name = "GitHub", icon = "github", url = "https://github.com/<your-username>" },
-    { name = "Twitter", icon = "twitter", url = "https://twitter.com/<your-username>" },
-    { name = "Email", icon = "email", url = "mailto:<your-email-address>" },
+    { name = "GitHub", icon = "github", url = "https://github.com/ggand0" },
+    { name = "Twitter", icon = "twitter", url = "https://twitter.com/gtgando" },
+    { name = "LinkedIn", icon = "linkedin", url = "https://www.linkedin.com/in/gotagando/" },
+    { name = "Email", icon = "email", url = "mailto:hi@ggando.me" },
 ]
 
 force_theme = false                   # false | "light" | "dark"
