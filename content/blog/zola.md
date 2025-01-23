@@ -16,9 +16,9 @@ tags = ["rust"]
 ## Context
 I initially created my previous website sometime with Nuxt.js in 2023. It served its purpose showing my bio and past projects, but I found it somewhat cumbersome for a static site like this. I also felt a mental barrier when it came to updating my website or writing new blog posts. In fact, I wrote my only blog post in February 2024 and never wrote anything since then. lol! As a result, I decided to migrate to a Rust-based static site generator called Zola, more compact framework that lets you focus on what I'd like to achieve with this website; documenting and sharing what I’ve learned on the internet.
 
-### How it works
-#### Set up the project
-I opted to fork the design from the serene and tranquil themes. Once you chose a theme, setting up a Zola project was fairly easy; the serene theme provides a comprehensive usage doc and I just needed to follow their instructions. Here's a summary of the steps::
+## How it works
+### Set up the project
+I opted to fork the design from the [serene](https://github.com/isunjn/serene) and [tranquil](https://github.com/TeaDrinkingProgrammer/tranquil) themes. Once you chose a theme, setting up a Zola project was fairly easy; the serene theme provides a comprehensive [usage doc](https://github.com/isunjn/serene/blob/latest/USAGE.md) and I just needed to follow their instructions. Here's a summary of the steps::
 1. `zola init <proj_name>`
 2. `cd  <proj_name>`
 3. `git submodule add -b latest https://github.com/isunjn/serene.git themes/serene`
@@ -31,9 +31,9 @@ I opted to fork the design from the serene and tranquil themes. Once you chose a
 
 After running a local server by `zola serve`, you should be able to see the skelton website in your browser. A neat thing about Zola is that you can override the templates or asset files (js / css) used in the theme with your custom files. For example, if you put your custom home.html under ./templates , Zola will prioritize that file over the corresponding one in the theme.
 
-#### Style with tailwind css
+### Style with tailwind css
 From here, I wanted to improve the styles of serene using Tailwind CSS. Incorporating tailwind was straightforward:
-1. Run npm install <packages> or create this package.json and then npm install
+1. Run `npm install <packages>` or create this `package.json` and then `npm install`
 ```json
 {
   "dependencies": {
@@ -96,7 +96,7 @@ As mentioned earlier, you can override theme templates with your own files. To i
 5. Style custom templates with Tailwind CSS
 Referring to another tailwind based theme tranquil, I just threw all the relevant templates to ChatGPT 4o to apply tailwind styles in my custom templates..and it worked. It took about 4 days to generate and refine custom templates. As I usually don't do front-end things, it took a fair amount of effort to achieve the satisfying results, but it's amazing how we can use AI to speed up the process these days.
 
-#### Things I got stuck on
+## Things I got stuck on
 While the process was mostly straightforward, here are some challenges I faced:
 - A long URL breaking the mobile layout
 In my only existing post, a long URL wasn’t wrapping correctly within the parent element, making it look like there was a weird horizontal gap on the right side. I mistakenly thought it was a tailwind issue so I ended up wasting a few hours troubleshooting with ChatGPT.
@@ -109,13 +109,13 @@ Zola uses a templating engine called Tera, and we can use its templating syntax 
 ```
 Interestingly this results in an error saying like Block page is duplicated, because Tera doesn’t ignore commented-out HTML. I suspect this also contributed to another styling issue I had.
 
-### Deployment
+## Deployment
 I use Vercel for deploying my personal website and I was able to deploy my Zola site without much trouble. After connecting your github repo, make sure to match the Zola version on Vercel with your local version. In my case it was 0.19.2. Addtionally, I needed to use `Node.js 20.x` to avoid the error `zola: /lib64/libm.so.6: version  GLIBC_2.29' not found (required by zola)`
 
-### Takeaway
+## Takeaway
 - Zola is easy, Zola works
 - Compatible with Tailwind CSS
 - Mind the Tera blocks
 - Utilize ChatGPT 4o
 
-All in all, I feel pretty good about the new website setup with Zola including how the website looks now. Highly recommended if you're hoping to do sometiing similar!
+All in all, I feel pretty good about the new website setup with Zola including how the website looks now. Highly recommended if you're hoping to do sometiing similar! If you're curious about the code I used for this website, you can check out the [repo](https://github.com/ggand0/ggando-website).
