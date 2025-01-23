@@ -1,6 +1,6 @@
 +++
 title = "How to install ROCm 5.7.1 for 7900 XTX"
-date = 2025-01-21
+date = 2024-02-03
 draft = false
 
 [extra]
