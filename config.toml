@@ -5,10 +5,10 @@
 #
 #=========================================================================================
 
-base_url = "https://example.com"      # Domain name of your website
+base_url = "https://ggando.com"      # Domain name of your website
 title = "Gota Gando"
 #description = "ggando"
-description = ""
+description = "Personal website of Gota Gando."
 default_language = "en"
 theme = "serene"
 output_dir = "public"

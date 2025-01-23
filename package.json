@@ -8,7 +8,6 @@
     "tailwindcss": "^3.4.17"
   },
   "scripts": {
-    "build": "parcel build static/styles/styles.css --dist-dir static/styles --no-source-maps",
-    "watch": "parcel watch static/styles/styles.css --dist-dir static/styles --no-hmr --no-source-maps"
+    "build:css": "npx tailwindcss -i ./static/css/tailwind.css -o ./static/css/main.css --minify"
   }
 }
