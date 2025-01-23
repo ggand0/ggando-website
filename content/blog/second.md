@@ -4,7 +4,7 @@ date = 2025-01-21
 draft = false
 
 [extra]
-thumb = "https://placehold.co/600x400"
+thumb = "img/600x400.svg"
 
 [taxonomies]
 categories = ["one"]

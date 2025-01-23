@@ -2,7 +2,7 @@
 name = "ViewSkater"
 desc = "A fast data viewer for viewing a large number of images, written in Rust. I always had the pain of having to manually plot image samples with matplotlib, or using slow built-in image viewers during explatory data analysis (EDA) for ML projects. This desktop app aims to alleviate this issue by dynamically caching images and providing UI with a responsive slider and a dual-pane view (which I can extend to N panes later)."
 tags = ["Rust", "Iced", "wgpu"]
-img = "https://ggando.b-cdn.net/vs0.png"
+img = "img/vs0_moz.jpg"
 links = [
   { name = "github", url = "https://github.com/ggand0/viewskater" },
   { name = "website", url = "https://viewskater.com/" },
@@ -12,7 +12,7 @@ links = [
 name = "Instance segmentation demo (2022/08)"
 desc = "A tech demo on performing cloud inference with GPU/CPU servers. This was a remove.bg clone where you can drag&drop images to do semseg and cut out segmented regions. Currently discontinued but I will host another cool model in the near future again!"
 tags = ["Python", "PyTorch", "Javascript", "Vue.js", "Nuxt.js", "GCP"]
-img = "https://ggando.b-cdn.net/cc1.png"
+img = "img/cc0_moz.jpg"
 links = [
   { name = "", url = "" },
   { name = "", url = "" },
@@ -22,7 +22,7 @@ links = [
 name = "Synthetic data generation with Unreal Engine 5 (2023/02-06)"
 desc = "A prototype UE5 project for generating synthetic instance segmentation dataset."
 tags = ["Unreal Engine", "C++", "Python"]
-img = ""
+img = "img/easysynth.jpg"
 links = [
   { name = "", url = "" },
   { name = "", url = "" },
@@ -32,7 +32,7 @@ links = [
 name = "Synthetic data generation demo with Unity Perception (2022/11-12)"
 desc = "A simple Unity Perception project to generate images of defected metal parts. Did this project as a PoC for one of my clients."
 tags = ["Unity", "Unity Perception"]
-img = "https://ggando.b-cdn.net/up1.png"
+img = "img/up_moz.jpg"
 links = [
   { name = "", url = "" },
   { name = "", url = "" },

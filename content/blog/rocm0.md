@@ -4,7 +4,7 @@ date = 2025-01-21
 draft = false
 
 [extra]
-thumb = "https://ggando.b-cdn.net/7900xtx.jpg"
+thumb = "img/7900xtx.jpg"
 
 [taxonomies]
 categories = ["blog"]
