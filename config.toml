@@ -8,7 +8,7 @@
 base_url = "https://ggando.com"      # Domain name of your website
 title = "Gota Gando"
 #description = "ggando"
-description = "Personal website of Gota Gando."
+description = ""
 default_language = "en"
 theme = "serene"
 output_dir = "public"
