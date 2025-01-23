@@ -2,6 +2,10 @@
 title = "How to install ROCm 5.7.1 for 7900 XTX"
 date = 2025-01-21
 draft = false
+
+[extra]
+thumb = "https://ggando.b-cdn.net/7900xtx.jpg"
+
 [taxonomies]
 categories = ["blog"]
 tags = ["rocm"]
