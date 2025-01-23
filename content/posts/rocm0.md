@@ -149,7 +149,10 @@ tensor([[0.6327, 0.1133, 0.1328],
         [0.6430, 0.2727, 0.1466]], device='cuda:0')
 ```
 
-Alternatively, you can run this nice script by @josedamico: https://gist.github.com/damico/484f7b0a148a0c5f707054cf9c0a0533
+Alternatively, you can run this nice script by @josedamico:  
+<p class="break-words overflow-hidden">
+  https://gist.github.com/damico/484f7b0a148a0c5f707054cf9c0a0533
+</p>
 
 ## Run the Stable Diffusion WebUI
 To further confirm that this PyTorch environment works, let's run the Stable Diffusion WebUI locally and perform GPU inference.
