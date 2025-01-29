@@ -228,7 +228,6 @@ function enableThemeToggle() {
   }
   
   function addBackToTopBtn() {
-    console.log('addBackToTopBtn');
     const backBtn = document.querySelector('#back-to-top');
     if (!backBtn) return;
     const toTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -326,7 +325,6 @@ function enableThemeToggle() {
   enableRssMask();
   
   if (document.body.classList.contains('post')) {
-    console.log('post');
     enableOutdateAlert();
     enableTocToggle();
     enableTocIndicate();
