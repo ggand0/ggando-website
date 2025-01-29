@@ -2,12 +2,15 @@
   "dependencies": {
     "@tailwindcss/typography": "^0.5.16",
     "autoprefixer": "^10.4.20",
+    "lightense-images": "^1.0.17",
     "parcel": "^2.13.3",
     "postcss": "^8.5.1",
     "postcss-cli": "^11.0.0",
     "tailwindcss": "^3.4.17"
   },
   "scripts": {
-    "build:css": "npx tailwindcss -i ./static/css/tailwind.css -o ./static/css/main.css --minify"
+    "build:css": "npx tailwindcss -i ./static/css/tailwind.css -o ./static/css/main.css --minify",
+    "build:js": "npx parcel build ./src/main.js --dist-dir ./static/js --no-source-maps",
+    "build": "npm run build:css && npm run build:js"
   }
 }
