@@ -4,7 +4,7 @@ date = 2025-01-30
 draft = false
 
 [extra]
-thumb = "img/map.webp"
+thumb = "img/map_moz_thumb.jpg"
 math = true
 
 [taxonomies]
@@ -12,7 +12,7 @@ categories = ["one"]
 tags = ["image_retrieval", "evaluation"]
 +++
 
-<img src="/img/map.webp" alt="img0" width="500"/>
+<img src="https://ggando.b-cdn.net/map.webp" alt="img0" width="500"/>
 
 ## Context
 I've been working on an image search system based on image similarity for a client which returns N database images sorted by similarity score given a user's query image. I usually use top-k accuracy metrics where I check if any relevant image is included in the top-k samples or top-k unique categories in the returned result when evaluating image similarity systems.
@@ -58,7 +58,7 @@ To get an intuition I made a simple animated example here:
   <source src="/vid/map0.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>-->
-<img src="/vid/map0.gif" alt="img0" width="500"/>
+<img src="https://ggando.b-cdn.net/map0.gif" alt="img0" width="500"/>
 <p class="break-words overflow-hidden">
 This visualization is generated with a Python library `manim`. Source code: https://gist.github.com/ggand0/9f5230ae384796244136ea089da8d5e4
 </p>
