@@ -8,7 +8,7 @@ thumb = "img/map_moz_thumb.jpg"
 math = true
 
 [taxonomies]
-categories = ["one"]
+categories = ["blog"]
 tags = ["image_retrieval", "evaluation"]
 +++
 

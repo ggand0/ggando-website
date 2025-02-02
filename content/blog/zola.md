@@ -7,7 +7,7 @@ draft = false
 thumb = "img/zola.webp"
 
 [taxonomies]
-categories = ["one"]
+categories = ["blog"]
 tags = ["rust"]
 +++
 
@@ -50,6 +50,7 @@ From here, I wanted to improve the styles of serene using Tailwind CSS. Incorpor
 }
 ```
 The build:css  command is for building the css in deployment phase later.
+
  2. Generate tailwind.config.js
 Run the command npx tailwindcss init . Here's my tailwind.config.js I generated with ChatGPT: 
 ```js
@@ -100,14 +101,14 @@ Referring to another tailwind based theme tranquil, I just threw all the relevan
 While the process was mostly straightforward, here are some challenges I faced:
 - A long URL breaking the mobile layout
 In my only existing post, a long URL wasn’t wrapping correctly within the parent element, making it look like there was a weird horizontal gap on the right side. I mistakenly thought it was a tailwind issue so I ended up wasting a few hours troubleshooting with ChatGPT.
-- Tera not ignoring the commented-out blocks of html
+- Tera not ignoring the commented-out blocks of html:
 Zola uses a templating engine called Tera, and we can use its templating syntax to interact with the data in config.toml. I often comment out old code blocks when I make breaking changes. For example, in _base.html, I had this:
 ```html
 <!--<body class="{% block page %}{% endblock page%}{% if config.extra.force_theme == "dark" %}dark{% endif %}">-->
 
 <body class="{% block page %}{% endblock page %}bg-bg text-text dark:bg-dark-mode dark:text-white {% if config.extra.force_theme == 'dark' %}dark{% endif %}">
 ```
-Interestingly this results in an error saying like Block page is duplicated, because Tera doesn’t ignore commented-out HTML. I suspect this also contributed to another styling issue I had.
+Interestingly this results in an error saying `Block page is duplicated`, because Tera doesn’t ignore commented-out HTML. I suspect this also contributed to another styling issue I had.
 
 ## Deployment
 I use Vercel for deploying my personal website and I was able to deploy my Zola site without much trouble. After connecting your github repo, make sure to match the Zola version on Vercel with your local version. In my case it was 0.19.2. Addtionally, I needed to use `Node.js 20.x` to avoid the error `zola: /lib64/libm.so.6: version  GLIBC_2.29' not found (required by zola)`

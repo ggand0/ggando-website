@@ -7,7 +7,7 @@ draft = false
 thumb = "img/mitvision.webp"
 
 [taxonomies]
-categories = ["one"]
+categories = ["blog"]
 tags = ["computer vision"]
 +++
 
