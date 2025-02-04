@@ -125,9 +125,11 @@ precision@8 = 3 / (3 + 5) = 0.375
 In this particular example, the relevant items were scattered across ranks and two of the items were ranked at 5 and 8 even though they're relevant, resulting in a rather lower AP@10 of 0.369.
 
 ### My initial misunderstanding
-As someone who's still a noob in IR, I wondered why we divide it by 3, not the actual number of relevant items in the entire database in the above example, as that's how we calculate AP in OD. Most AP definitions online say the denominator of AP is "the total number of relevant items", and this confused me. It turns out that in IR, this means "the total number of relevant items within the retrieved sequence", not the entire dataset.
+As someone who is still a noob in IR, I wondered why we divide it by 3, not the actual total in the above case at first, since the definitions of AP available online all say the denominator of AP is "the total number of relevant items". It turns out that I was looking at the visualization of AP@K while refering to the definition of AP.
 
-Whether we're considering the entire database or just the retrieved sequence was the source of much of my confusion. Depending on your prompts, even GPT agents seem to mix these things up. So, I recommend reviewing the official definitions of these metrics in IR textbooks to confirm the standard explanations. For example, page 166 of the Manning's book "An Introduction to Information Retrieval" ([PDF link](https://nlp.stanford.edu/IR-book/pdf/irbookprint.pdf)) defines mAP@K.
+It was also confusing to see how the PR curve in most resources always reaches a recall of 1.0, even though, in practice, it's common for the recall of a retrieved sequence to not have 1.0. After observing PR curves always reaching a recall of 1.0, I mistakenly thought that the definition of AP was something applied *locally* within the retrieved sequence. But this is incorrect because recall is defined based on the total number of relevant items in the dataset. Both AP and the precision-recall curve are calculated using the total number of relevant items, including those that weren't retrieved by the system.
+
+Whether we're considering the entire database or just the retrieved sequence was the source of much of my confusion. Depending on your prompts, even GPT agents seem to mix these things up. So, I recommend reviewing the official definitions of these metrics in IR textbooks to confirm the standard explanations. For example, page 166 of the Manning's book "An Introduction to Information Retrieval" ([PDF link](https://nlp.stanford.edu/IR-book/pdf/irbookprint.pdf)) defines mAP without `@K`.
 
 ### Recall vs recall@K
 These basically just regular recalls but recall@K has a cutoff point (K) for calculating the numerator term. Note that the denominator is both the total number of relevant items in the entire dataset for a particular query.
@@ -222,11 +224,14 @@ Before TREC, researchers used different datasets and metrics, making it hard to 
 Now that I understand mAP, I feel this is a must-have metric for search systems evaluation. It provides a good single-value representation of retrieval quality, making it easier to compare different models. Hopefully this post gave you a bit more clarity on common IR metrics. Thanks for reading!
 
 ## References
-- "Evaluation in information retrieval" (The Manning's book)
-- "Learning to Rank for Information Retrieval" (Tie-Yan Liu's book)
-- "Information Retrieval" C.J. van Rijsbergen.
-- "Introduction to Modern Information Retrieval", G. Salton and M.J. McGill Computer Science Series, 1983
 
-- "Performance Evaluation of Information Retrieval Systems", https://www.slideshare.net/slideshow/performance-evaluation-of-ir-models/229729988#13
-- "Mean Average Precision at K (MAP@K) clearly explained", https://medium.com/towards-data-science/mean-average-precision-at-k-map-k-clearly-explained-538d8e032d2
-- "mAP (mean Average Precision) for Object Detection", https://jonathan-hui.medium.com/map-mean-average-precision-for-object-detection-45c121a31173
+#### **Books:**
+- *Evaluation in Information Retrieval* — Christopher D. Manning (often referred to as "Manning's book")
+- *Learning to Rank for Information Retrieval* — Tie-Yan Liu
+- *Information Retrieval* — C.J. van Rijsbergen
+- *Introduction to Modern Information Retrieval* — Gerard Salton and Michael J. McGill, *Computer Science Series*, 1983
+
+#### **Articles & Online Resources:**
+- [Performance Evaluation of Information Retrieval Systems](https://www.slideshare.net/slideshow/performance-evaluation-of-ir-models/229729988#13)
+- [Mean Average Precision at K (MAP@K) Clearly Explained](https://medium.com/towards-data-science/mean-average-precision-at-k-map-k-clearly-explained-538d8e032d2)
+- [mAP (Mean Average Precision) for Object Detection](https://jonathan-hui.medium.com/map-mean-average-precision-for-object-detection-45c121a31173)
