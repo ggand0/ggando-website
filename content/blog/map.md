@@ -139,19 +139,22 @@ In this particular example, the relevant items were scattered across ranks and t
 ### My initial misunderstandings
 As someone who is still a noob in IR, whether we're considering the entire database or just the retrieved sequence was the source of my confusion. For example, I wondered why we divide by 3, not the actual total number of relevant items in the earlier example at first, since the definitions of AP available online all say the denominator of AP is "the total number of relevant items". It turns out that I was just looking at the visualization of AP@K while refering to the definition of AP.
 
-At some point, I also understood $N$ in the AP formula as the size of the entire dataset, not the length of the retrieved sequence. but this also turned out to be incorrect as per the definition. **AP is defined only for a ranked list of retrieved items.** As for the relevant items that weren’t retrieved in the database, we can’t define precisions for those items because they weren’t assigned a rank. This is analogous to the fact that we can't compute precision for non-existent bounding boxes that weren't predicted (it’s obvious when we think of it this way!). However, $N$ **can be** the size of full dataset **if** you retrieve the entire dataset by computing a full similarity matrix, for example. Very confusing!
+At some point, I also misunderstood $N$ in the AP formula as the size of the entire dataset, not the length of the retrieved sequence. but this also turned out to be incorrect as per the definition. **AP is defined only for a ranked list of retrieved items.** As for the relevant items that weren’t retrieved in the database, we can’t define precisions for those items because they weren’t assigned a rank. This is analogous to the fact that we can't compute precision for non-existent bounding boxes that weren't predicted (it’s obvious when we think of it this way!). However, $N$ **can be** the size of full dataset **if** you retrieve the entire dataset by computing a full similarity matrix, for example. Very confusing!
 
 It was also confusing to see how the Precision-Recall (PR) curve in most resources always reaches a recall of 1.0, even though in practice, it's common for the recall of a retrieved sequence to **not** reach 1.0. After observing PR curves that always reach a recall of 1.0, I mistakenly thought that the definition of AP was normalized *locally* within the retrieved sequence, using $R_K$ as the denominator. 
 
-While this is the case for $AP@K$  in some definitions, it's incorrect for **AP** because recall is defined based on the total number of relevant items in the dataset $R$, not just the retrieved items. Both A and the Precision-Recall curve are calculated using the points within the retrieved sequence, but they are **normalized by $R$** to account for all relevant items, including those that were not retrieved.
+While this is the case for $AP@K$  in some definitions, it's incorrect for **AP** because recall is defined based on the total number of relevant items in the dataset $R$, not just the retrieved items. Both AP and the Precision-Recall curve are calculated using the points within the retrieved sequence, but they are **normalized by $R$** to account for all relevant items, including those that were not retrieved.
 
-Depending on your prompts, even GPT agents seem to mix these things up. So, I recommend reviewing the official definitions of these metrics in IR textbooks to confirm the standard explanations. For example, page 166 of the Manning's book "An Introduction to Information Retrieval" ([PDF link](https://nlp.stanford.edu/IR-book/pdf/irbookprint.pdf)) defines mAP without `@K`. Another good definition of AP is page 234 of the Liu's book ([PDF link](https://didawiki.di.unipi.it/lib/exe/fetch.php/magistraleinformatica/ir/ir13/1_-_learning_to_rank.pdf)).
+Depending on your prompts, even GPT agents seem to mix these things up. So, I recommend reviewing the official definitions of these metrics in IR textbooks to confirm the standard explanations. For example, page 166 of the Manning's book "An Introduction to Information Retrieval" ([PDF link](https://nlp.stanford.edu/IR-book/pdf/irbookprint.pdf)) defines mAP without `@K`. Another good definition of AP is page 70-71 of the Büttcher et al.'s book ([PDF link](https://mitmecsept.wordpress.com/wp-content/uploads/2018/05/stefan-bc3bcttcher-charles-l-a-clarke-gordon-v-cormack-information-retrieval-implementing-and-evaluating-search-engines-2010-mit.pdf)).
 
 
 ## More intuitions
 ### Precision-Recall Curve
-Just like in object detection, the overall AP (not $AP@K$!) in IR can still be defined as the area under the precision-recall (PR) curve, though this AP is not common in IR evaluation. Note that in IR the PR curve is "global", and you'd need to think about all the relevant items in DB to plot this. The PR curve is defined by (precision, recall) points at every relevant item in the dataset. You can think of the overall AP as the AUC-PR because AP sums the precision at each relevant item. Summing precision at every relevant item is equivalent to adding a point at each recall level in the area calculation.
+**AP in IR is almost equal to AUC-PR without interpolated precision** because it’s calculated as a sum of precisions at every relevant item. The actual AUC-PR may differ slightly since it's defined as the continuous integration over the entire precision-recall curve.
 
+In contrast, **AP in OD is explicitly defined as the AUC-PR with interpolated precision**, where the PR curve is smoothed to be non-decreasing. This interpolation stabilizes the evaluation, making AP in OD exactly equal to the area under the interpolated PR curve.
+
+Here, I provide an example of how you can compute the points to plot a PR curve using the same example I used earlier. You need pairs of (Precision@K, Recall) points at every rank:
 
 | Rank | Rel | Precision@K | Recall |
 |---|---------|----------------|-----------|
@@ -166,14 +169,14 @@ Just like in object detection, the overall AP (not $AP@K$!) in IR can still be d
 | 9    | 0 | —              |  3/3 (1.0) |
 | 10   | 0 | —              |  3/3 (1.0) |
 
-NOTE: <u>This assumes an oversimplified situation where the total number of relevant items in DB is 3.</u>
+NOTE: <u>This assumes an oversimplified situation where the total number of relevant items in the database is 3.</u>
 
 <img src="/img/pr1_bad.png" alt="img0" width="500" style="display: block; margin: auto;"/>
 
-PR curve is defined all available (precision, recall) points and it does not stop if recall reaches 1.0. This point is discussed in [this sklearn github issue](https://github.com/scikit-learn/scikit-learn/issues/23213).
+The PR curve is defined by (precision, recall) points, with recall increasing at each relevant item in the retrieved sequence. The PR curve can include additional (precision, recall) points even after recall reaches 1.0, reflecting further retrieved items. However, recall remains constant while precision declines as more non-relevant items are included. This point is discussed in [this scikit-learn github issue](https://github.com/scikit-learn/scikit-learn/issues/23213).
 
 ### Interpolated precision
-This is also commonly known, but in IR evaluation, we often interpolate precision values to smooth out fluctuations (the sawtooth shape) in standard PR curves. This allows for a clearer comparison of PR curves across different systems. However, note that the area under the PR curve with interpolated precision does not equal AP. AP is equal to the AUC of original PR curve.
+This is also commonly known, but in IR evaluation, we often interpolate precision values to smooth out fluctuations (the sawtooth shape) in standard PR curves. This allows for a clearer comparison of PR curves across different systems. However, note that AP does not approximate the area under the PR curve with interpolated precision.
 <img src="/img/pr2_bad.png" alt="img0" width="500" style="display: block; margin: auto;"/>
 
 ### Realistic example
