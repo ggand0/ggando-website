@@ -15,11 +15,11 @@ tags = ["image_retrieval", "evaluation"]
 <img src="https://ggando.b-cdn.net/map_datauni0_1280.jpg" alt="img0" width="500" style="display: block; margin: auto;"/>
 
 ## Context
-I've been working on an image search system based on image similarity for a client which returns N database images sorted by similarity score given a user's query image. I usually use top-k accuracy metrics where I check if any relevant image is included in the top-k samples or top-k unique categories in the returned result when evaluating image similarity systems.
+I've been working on an image search system based on image similarity for a client which returns database images sorted by similarity score given a user's query image. I usually use top-k accuracy metrics where I check if any relevant image is included in the top-k samples or top-k unique categories in the returned result when evaluating image similarity systems.
 However, we've reached a point where the model performed pretty well on the current datasets and the metrics became a bit too lenient, so we decided to include the mean average precision (mAP) in the model evaluation.
 
 ## AP and mAP in IR
-I knew that the mAP in object detection (OD) is the area under the precision-recall curve (AUC-PR), but the definition of mAP seems different in the context of information retrieval (IR). After researching online, I noticed that the definition of AP as AUC-PR is not common in IR, which left me very confused, especially with the use of $@K$ metrics. I'll explain this part later. I found [the Evidently AI's article](https://www.evidentlyai.com/ranking-metrics/mean-average-precision-map) explaining this mAP quite comprehensive, but [this article on builtin.com](https://builtin.com/articles/mean-average-precision) is possibly the best resource as it clearly describes how AP is defined in both IR and OD contexts. While these posts already describe the topic well, I'd like to add a few nuances that really helped me understand this metric better.
+I knew that the mAP in object detection (OD) is the area under the precision-recall curve (AUC-PR), but the definition of mAP seemed different in the context of information retrieval (IR) at first. After doing some research, I realized that they're actually the same when not using interpolated precisions. It is confusing because most online resources gloss over whether things are calculated based on the entire dataset or just the retrieved sequence. I found [the Evidently AI's article](https://www.evidentlyai.com/ranking-metrics/mean-average-precision-map) explaining this mAP quite comprehensive, but [this article on builtin.com](https://builtin.com/articles/mean-average-precision) is possibly the best resource as it clearly describes how AP is defined in both IR and OD contexts. While these posts already describe the topic well, I'd like to add a few nuances that really helped me understand this metric better.
 
 ### Situation
 We have an IR or some kind of search system (items can be anything like documents or images) that retrives $N$ most relevant items, given a user's query $q$ (e.g., a single image, a set of search keywords, etc.). We want to evaluate how good the returned results are for this particular query, and also know how well it performed for $M$ queries on average. The system is not perfect and items within this retrieved list can actually be "relevant" or "not relevant" for the user.
@@ -89,7 +89,7 @@ $$
 
 While the previous definition of AP@K focuses only on the relevant items found within the top-$K$ results, this version penalizes missing relevant items even if they were not retrieved within the top-$K$ as the denominator is $\min(K, R)$. This means If there are relevant items outside the top-$K$, the model is penalized for not retrieving them within the top-$K. [This post](https://sdsawtelle.github.io/blog/output/mean-average-precision-MAP-for-recommender-systems.html#Common-Variations-on-AP-Formula) also explains this variation of AP@K formula.
 
-However, I don't think this definition is common. For example, the implementation of `RetrievalMAP()` in torchmetrics ([source](https://github.com/Lightning-AI/torchmetrics/blob/master/src/torchmetrics/functional/retrieval/average_precision.py#L22)) seems to only calculate the average of precision@k in top-K results.
+However, I'm not sure if this definition is very common. For example, the implementation of `RetrievalMAP()` in torchmetrics ([source](https://github.com/Lightning-AI/torchmetrics/blob/master/src/torchmetrics/functional/retrieval/average_precision.py#L22)) seems to only calculate the average of precision@k in top-K results.
 
 ### mAP Formula in IR
 
@@ -115,7 +115,7 @@ $M$ is just a user-specified parameter, so for example you can compute mAP for a
 
 
 ### AP@K Example
-A system returns a sequence $[0, 0, 1, 0, 1, 0, 0, 1, 0, 0]$ for your query (1 = relevant, 0 = not relevant) where the actual total number of relevan item is 3 (all relevant items retrieved).
+A system returns a sequence: $$[0, 0, 1, 0, 1, 0, 0, 1, 0, 0]$$ for your query (1 = relevant, 0 = not relevant) where the actual total number of relevan item is 3 (all relevant items retrieved).
 To build some intuition I made a simple animated example here:
 
 <img src="https://ggando.b-cdn.net/map0.gif" alt="img0" width="500" style="display: block; margin: auto;"/>
@@ -169,19 +169,20 @@ This is also commonly known, but in IR evaluation, we often interpolate precisio
 <img src="/img/pr2_bad.png" alt="img0" width="500" style="display: block; margin: auto;"/>
 
 ### Realistic example
-In the first example, the system was able to retrieve all the relevant items. What if it fails to retrieve all relevant items? Let's imagine another exmaple when the system returns the sequence $[1,1,0,1,0,1,0,0,0,0,0,1,0,0]$ (1 = relevant, 0 = not) where number of relevant items is 8. In this case, the recall of PR curve will not reach 1.0 since the system only retrieved 5 relevant items. AP = 0.479 and the PR curve will look like this:
+In the first example, the system was able to retrieve all the relevant items. What if it fails to retrieve all relevant items? Let's imagine another exmaple when the system returns the sequence:
+$$[1,1,0,1,0,1,0,0,0,0,0,1,0,0]$$ where 1 = relevant, 0 = not, and the number of relevant items is 8. In this case, the recall of PR curve will **not reach 1.0** since the system only retrieved 5 relevant items. AP = 0.479 and the PR curve will look like this:
 <img src="/img/pr3.png" alt="img0" width="500" style="display: block; margin: auto;"/>
 
-It is **normal** for the recall of PR curve to not reach 1.0 in the context of retrieval or detection. For classification tasks, the recall of PR curve always reachs 1.0 because the purpose of model is to classify the test samples that are already given. Most resources don't even mention this, but I found [a great slideshare page](https://www.slideshare.net/slideshow/performance-evaluation-of-ir-models/229729988#10) that clearly explains this in IR context (refer to page 10 and 13). I also found [thismedium post](https://ridgerunai.medium.com/machine-learning-mean-average-precision-map-and-other-object-detection-metrics-45267507a904) explaining PR curve in OD context with a practical example where the curve doesn't reach recall=1.0.
+It is **normal** for the recall of PR curve to not reach 1.0 in the context of retrieval or detection. For classification tasks, the recall of PR curve always reachs 1.0  because the model’s purpose is to classify all given test samples. Most resources don't even mention this, but I found [a great Slideshare presentation](https://www.slideshare.net/slideshow/performance-evaluation-of-ir-models/229729988#10) that clearly explains this in IR context (refer to page 10 and 13). I also found [this medium post](https://ridgerunai.medium.com/machine-learning-mean-average-precision-map-and-other-object-detection-metrics-45267507a904) explaining PR curve in OD context with a practical example where the curve doesn't reach recall=1.0.
 
 ### Sensitivity to precision
-So far, I've used single examples where the number of total relevant items is a single digit. Let’s scale things up with a case where the sequence length is 1,000 and the number of relevant items is 500. We assume that all 500 relevant items were retrieved within this sequence. 
+So far, I've used simple examples where the number of total relevant items is a single digit. Let’s scale things up with a case where the sequence length is 1,000 and the number of relevant items is 500 to understand this curve more. We assume that all 500 relevant items were retrieved within this sequence. 
 
 To see how the distribution of relevant items affects the PR curve, we generate a set of sequences with varying early precisions. Specifically, we incrementally add more relevant items within the first 250 positions across different sequences. To ensure all the curves start from the same point, I fixed the first 10 retrieved items as all "relevant" in every sequence. Here’s the result:
 
 <img src="https://ggando.b-cdn.net/pr4_fixed10_early_auc.png" alt="img1" width="500" style="display: block; margin: auto;"/>
 
-We can observe that the PR curve is very sensitive to the precision of early retrieved items. The more relevant items you miss early on, the sharper the drop in the AP curve corresponding to them.
+I also highlighted the AUC of curves with a pale color. Notice that the last point of each curve is at (1.0, 0.5) since all sequences have retrieved 250 out of 500 relevant items by the 1,000th item, meaning Precision@1000 = 0.5 at that point. We can observe that the PR curve is **very sensitive to the precision of early retrieved items**. The more relevant items you miss early on, the sharper the drop in the AP curve corresponding to them.
 
 Here’s another example where we fix the first 50 items instead of 10. The part of the curve that drops to 0.6 remains the same, but it looks like you can still achieve a good AP if you start regaining high precision relatively early.
 
@@ -194,11 +195,13 @@ Relevant items retrieved later in the sequence still contribute to the AUC, but 
 <img src="https://ggando.b-cdn.net/pr4_fixed10_late_auc.png" alt="img1" width="500" style="display: block; margin: auto;"/>
 
 ### Sensitivity to recall
-Lastly, let's see how curves change if we vary the number of items the system was able to retrieve out of 500 actual relevant items. We plot 5 curves with the number of relevant items in their sequence = `[100, 200, ..., 500]`. Here's the result:
+Lastly, let’s see how the PR curves change when we vary the number of relevant items retrieved out of 500 actual relevant items. I plotted 5 curves with the number of relevant items in each sequence set to:
+`[100, 200, ..., 500]`.
+Here's the result:
 
 <img src="https://ggando.b-cdn.net/pr4_recall_new.png" alt="img2" width="500" style="display: block; margin: auto;"/>
 
-I also highlighted the AUC of curves with a pale color. We can see that high recall of retrived sequence has the effect of pushing the curves to the right. This also makes sense; without relevant items in the retrieved sequence there will be no precision values to add into AUC.
+We can see that **a higher recall** of the retrieved sequence **pushes the curves to the right**. This makes sense; without relevant items in the retrieved sequence, there are fewer precision values to contribute to the AUC. The more relevant items you retrieve, the more the curve fills out, increasing both recall and the area under the curve.
 
 ## Historical context
 I also did a bit of research on how this metric became popular among IR researchers, to learn more on why we use mAPs in the first place. I found [this lecturenote](https://downloads.webis.de/lecturenotes/information-retrieval/unit-en-ir-organization.pdf) providing free PDF links for well-known IR books. I explored old IR books with GPT a little bit, and I think it comes down to these 3 reasons:
