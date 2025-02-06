@@ -90,7 +90,7 @@ AP = \frac{1}{R} \sum_{k=1}^{N} \text{P@}k \times rel(k)
 $$
 </div>
 
-### **Notation of AP**
+Where:  
 - $N$: Total number of items in the retrieved ranked list.
     - In large-scale systems, this usually refers to the number of **retrieved items**.  
     - In small-scale systems (e.g., when computing a full similarity matrix), $N$ can be the size of **entire dataset**.
@@ -119,16 +119,23 @@ AP_2@K = \frac{1}{\min(K, R)} \sum_{k=1}^{K} \text{P@}k \times rel(k)
 \end{equation}
 $$
 
-For clarity, I'll refer to Definition 1 as $AP_1@K$ and Definition 2 as $AP_2@K$.
-
-### **Notation of AP@K**
+Where:  
 - $K$: Cut-off rank for top-$K$ evaluation (user-specified; i.e., top-10)  
 - $R_K$: Total number of relevant items within the top-$K$ retrieved results  
 - $R$: Total number of relevant items in the dataset (for the current query)  
 - $\text{P@}k$: Precision at rank $k$ (same as AP)  
 - $rel(k)$: Indicator function (1 if the item at rank $k$ is relevant, 0 otherwise) (same as AP)
 
-As far as I have researched, the definition (2) seems to be more common, and also has nice characteristics.  For example, the implementation of `RetrievalMAP()` in torchmetrics ([source](https://github.com/Lightning-AI/torchmetrics/blob/master/src/torchmetrics/functional/retrieval/average_precision.py#L22)) seems to use this definition. There are also a certain amount of people who do use the definition (1). Which one to use is user-specified, and I'll describe the intuitions of these below to help you choose.
+For clarity, I'll refer to Definition 1 as $AP_1@K$ and Definition 2 as $AP_2@K$.
+
+Based on my research, $AP_2@K$ seems to be more commonly used, especially in research papers. I have seen a moderate number of online articles using $AP_1@K$, but in academic research, $AP_2@K$ appears to be more commonly used. For example, I found the following papers defining AP@K using the $AP_2@K$ formula:
+- [Deep Learning Based Dense Retrieval: A Comparative Study](https://arindam.cs.illinois.edu/papers/15/collab-ranking.pdf)
+- [Collaborative Ranking with a Push at the Top](https://arxiv.org/pdf/2410.20315v1)
+- [Inquire: A Natural World Text-to-Image Retrieval Benchmark](https://arxiv.org/html/2411.02537v2)
+
+The "INQUIRE" paper explains in more detail how different research works have defined AP@K. If you're curious, I recommend checking out Appendix G of that paper. Their explanation suggests that $AP_2@K$ originates from the TREC book (2005), but unfortunately I don’t have access to it.
+
+Another example is the implementation of `RetrievalMAP()` in torchmetrics ([source](https://github.com/Lightning-AI/torchmetrics/blob/master/src/torchmetrics/functional/retrieval/average_precision.py#L22)) seems to use this definition. That said, there are also a number of sources that only mention the $AP_1@K$ definition, such as [this TDS article](https://medium.com/towards-data-science/mean-average-precision-at-k-map-k-clearly-explained-538d8e032d2). Which AP@K definition to use is a user choice, and I'll describe the intuitions behind these below to help you decide.
 
 
 #### Definition 1
@@ -138,7 +145,7 @@ However, the issue with this definition is that it’s a purely precision-orient
 
 
 #### Definition 2
-While the previous definition of AP@K focuses only on the relevant items found within the top-$K$ results, this version penalizes missing relevant items even if they were not retrieved within the top-$K$ as the denominator is $\min(K, R)$. This means If there are relevant items outside the top-$K$, the model is penalized for not retrieving them within the top-$K. [This post](https://sdsawtelle.github.io/blog/output/mean-average-precision-MAP-for-recommender-systems.html#Common-Variations-on-AP-Formula) also explains this variation of AP@K formula.
+While the previous definition of AP@K focuses only on the relevant items found within the top-$K$ results, this version penalizes missing relevant items even if they were not retrieved within the top-$K$ as the denominator is $\min(K, R)$. This means If there are relevant items outside the top-$K$, the model is penalized for not retrieving them within the top-$K$. [This post](https://sdsawtelle.github.io/blog/output/mean-average-precision-MAP-for-recommender-systems.html#Common-Variations-on-AP-Formula) also explains this variation of AP@K formula.
 
 
 ### AP@K Examples
@@ -152,7 +159,7 @@ A system returns a sequence: $$[0, 0, 1, 0, 1, 0, 0, 1, 0, 0]$$ for your query (
 This visualization was generated with a Python library `manim`. Source code: [Gist Link](https://gist.github.com/ggand0/9f5230ae384796244136ea089da8d5e4)
 </p>
 -->
-<img src="/vid/apk_ex2.gif" alt="img0" width="500" style="display: block; margin: auto;"/>
+<img src="https://ggando.b-cdn.net/apk_ex2.gif" alt="img0" width="500" style="display: block; margin: auto;"/>
 
 As for the summation part, we simply compute a precision at each relevant item and take the average of those:
 ```
@@ -165,11 +172,18 @@ In this particular example, the relevant items were scattered across ranks and t
 
 This example shows that when **all relevant items are retrieved within the top-$K$**, $AP_1@K$ and $AP_2@K$ are identical.
 
-#### Ex2: $AP_1@K$ is high, $AP_2@K$ is low 
-A system returns a sequence: $$[1, 0, 1, 0, 0, 0, 0, 0, 0, 0]$$ where the actual total number of relevan item is 6 (4 items were missed).
-<img src="/vid/apk_ex1.gif" alt="img0" width="500" style="display: block; margin: auto;"/>
+#### Ex2: $AP_1@K$ is 1.0, $AP_2@K$ is low 
+A system returns a sequence: $$[1, 1, 0, 0, 0, 0, 0, 0, 0, 0]$$ where the actual total number of relevan item is 6 (4 items were missed).
+<!--<img src="/vid/apk_ex1.gif" alt="img0" width="500" style="display: block; margin: auto;"/>-->
 
-Here, $AP_1@K$ is high because it rewards placing just a few relevant items toward the top, even though 4 relevant items were completely missed. If you are only interested in evaluating the precision-like aspect of system performance, this may be fine. However, $AP_2@K$ penalizes the system for failing to retrieve all relevant items and results in a much lower value.
+$$
+\begin{aligned}
+AP_1@K &= \frac{\frac{1}{1} + \frac{2}{2}}{2} = 1.0 \\\\
+AP_2@K &= \frac{\frac{1}{1} + \frac{2}{2}}{6} = 0.333
+\end{aligned}
+$$
+
+Here, $AP_1@K$ is 1.0 because it rewards placing just a few relevant items toward the top, even though 4 relevant items were completely missed. If you are only interested in evaluating the precision-like aspect of system performance, this may be fine. However, $AP_2@K$ penalizes the system for failing to retrieve all relevant items and results in a much lower value.
 
 In most recommender systems, we ideally want to fill the top ranks with as many relevant items as possible. For this example, an ideal ranking would look like this:
 $$[1, 1, 1, 1, 1, 1, 0, 0, 0, 0]$$
@@ -224,18 +238,20 @@ Here, I provide an example of how you can compute the points to plot a PR curve 
 
 NOTE: <u>This assumes an oversimplified situation where the total number of relevant items in the database is 3.</u>
 
-<img src="/img/pr1_bad.png" alt="img0" width="500" style="display: block; margin: auto;"/>
+**AP = 0.369**, and PR curve can be plotted like this:
+
+<img src="https://ggando.b-cdn.net/pr1.png" alt="img0" width="500" style="display: block; margin: auto;"/>
 
 The PR curve is defined by (precision, recall) points, with recall increasing at each relevant item in the retrieved sequence. The PR curve can include additional (precision, recall) points even after recall reaches 1.0, reflecting further retrieved items. However, recall remains constant while precision declines as more non-relevant items are included. This point is discussed in [this scikit-learn github issue](https://github.com/scikit-learn/scikit-learn/issues/23213).
 
 ### Interpolated precision
 This is also commonly known, but in IR evaluation, we often interpolate precision values to smooth out fluctuations (the sawtooth shape) in standard PR curves. This allows for a clearer comparison of PR curves across different systems. However, note that AP does not approximate the area under the PR curve with interpolated precision.
-<img src="/img/pr2_bad.png" alt="img0" width="500" style="display: block; margin: auto;"/>
+<img src="https://ggando.b-cdn.net/pr2.png" alt="img0" width="500" style="display: block; margin: auto;"/>
 
 ### Realistic example
 In the first example, the system was able to retrieve all the relevant items. What if it fails to retrieve all relevant items? Let's imagine another exmaple when the system returns the sequence:
-$$[1,1,0,1,0,1,0,0,0,0,0,1,0,0]$$ where 1 = relevant, 0 = not, and the number of relevant items is 8. In this case, the recall of PR curve will **not reach 1.0** since the system only retrieved 5 relevant items. AP = 0.479 and the PR curve will look like this:
-<img src="/img/pr3.png" alt="img0" width="500" style="display: block; margin: auto;"/>
+$$[1,1,0,1,0,1,0,0,0,0,0,1,0,0]$$ where 1 = relevant, 0 = not, and the number of relevant items is 8. In this case, the recall of PR curve will **not reach 1.0** since the system only retrieved 5 relevant items. **AP = 0.479** and the PR curve will look like this:
+<img src="https://ggando.b-cdn.net/pr3.png" alt="img0" width="500" style="display: block; margin: auto;"/>
 
 It is **normal** for the recall of PR curve to not reach 1.0 in the context of retrieval or detection. For classification tasks, the recall of PR curve always reachs 1.0  because the model’s purpose is to classify all given test samples. Most resources don't even mention this, but I found [a great Slideshare presentation](https://www.slideshare.net/slideshow/performance-evaluation-of-ir-models/229729988#10) that clearly explains this in IR context (refer to page 10 and 13). I also found [this medium post](https://ridgerunai.medium.com/machine-learning-mean-average-precision-map-and-other-object-detection-metrics-45267507a904) explaining PR curve in OD context with a practical example where the curve doesn't reach recall=1.0.
 
@@ -301,16 +317,18 @@ Depending on your prompts, even GPT agents seem to mix these things up. So, I re
 
 
 ## Conclusion
-- AP@K only sums precisions within top-K results
-- AP sums precisions over at all recall levels
-- AP in IR is equal to AP in OD without interpolated precisions
-- mAP in IR is just the average of APs for some set of queries
+- **AP** sums precisions over at all recall levels.
+- **AP@K** only considers the top-$K$ results and has multiple variants depending on the normalization factor.
+- **AP in IR** approximates the AUC of the precision-recall curve.
+- **mAP in IR** is just the average of APs for multiple queries.
 
-Now that I understand mAP, I feel this is a must-have metric for search systems evaluation. It provides a good single-value representation of retrieval quality, making it easier to compare different models. Hopefully this post gave you a bit more clarity on common IR metrics. Thanks for reading!
+Now that I understand mAP, I feel this is a must-have metric for evaluating search systems. It provides a single-value representation of retrieval quality that balances both precision & recall aspects, making it easier to compare different models. 
+
+Personally, I’ve decided to adopt $AP@K$ definition with the $\min(K, R)$ term ($AP_2@K$) for evaluation in my projects, as it better accounts for missing relevant items. Hopefully this post gave you a bit more clarity on common IR metrics. Thanks for reading!
 
 ## References
 
-#### **Books and academic resources:**
+#### **Books and papers:**
 - *Evaluation in Information Retrieval* — C.D. Manning, P. Raghavan, H. Schütze (the Manning's book) [[PDF chapterlinks](https://www-nlp.stanford.edu/IR-book/)]
 - *Learning to Rank for Information Retrieval* — T.-Y. Liu [[PDF link](https://didawiki.di.unipi.it/lib/exe/fetch.php/magistraleinformatica/ir/ir13/1_-_learning_to_rank.pdf)]
 - *Information Retrieval: Implementing and Evaluating Search Engines* — C.L.A. Clarke, G. Cormack, S. Büttcher [[PDF link](https://mitmecsept.wordpress.com/wp-content/uploads/2018/05/stefan-bc3bcttcher-charles-l-a-clarke-gordon-v-cormack-information-retrieval-implementing-and-evaluating-search-engines-2010-mit.pdf)]
@@ -318,9 +336,10 @@ Now that I understand mAP, I feel this is a must-have metric for search systems 
 - *Introduction to Modern Information Retrieval* — G. Salton, M.J. McGill, *Computer Science Series*, 1983 [[PDF chapter links](https://sigir.org/resources/museum/#:~:text=Introduction%20to%20Modern%20Information%20Retrieval)]
   (You need to text search within the page)
 - *INFORMATION STORAGE AND RETRIEVAL* — G. Salton, 1974 [[PDF link]](https://files.eric.ed.gov/fulltext/ED101718.pdf)
-- *The Smart environment for retrieval system evaluation* — G. Salton, 2008 [[PDF link]](https://sigir.org/files/museum/Information_Retrieval_Experiment/pdfs/p316-salton.pdf)
+- [Inquire: A Natural World Text-to-Image Retrieval Benchmark](https://arxiv.org/html/2411.02537v2)
 
 #### **Articles & Online Resources:**
+- *The Smart environment for retrieval system evaluation* — G. Salton, 2008 [[PDF link]](https://sigir.org/files/museum/Information_Retrieval_Experiment/pdfs/p316-salton.pdf)
 - [The History of Information Retrieval Research](https://ciir-publications.cs.umass.edu/getpdf.php?id=1066)
 - [Performance Evaluation of Information Retrieval Systems](https://www.slideshare.net/slideshow/performance-evaluation-of-ir-models/229729988#13)
 - [Mean Average Precision at K (MAP@K) Clearly Explained](https://medium.com/towards-data-science/mean-average-precision-at-k-map-k-clearly-explained-538d8e032d2)
