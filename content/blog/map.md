@@ -29,7 +29,7 @@ We have an IR or some kind of search system (items can be anything like document
 
 ### Notation
 Here’s a quick visualization to clarify the key symbols used throughout this post:
-<img src="https://ggando.b-cdn.net/notation.png" alt="img0" width="600" style="display: block; margin: auto;"/>
+<img src="https://ggando.b-cdn.net/notation2.jpg" alt="img0" width="600" style="display: block; margin: auto;"/>
 
 Symbols:
 - $N$: Total number of retrieved items
@@ -101,6 +101,8 @@ Where:
 Unlike precision, the denominator of AP is the **actual total number of relevant items in the entire dataset** $R$, not just the number of relevant items retrieved. For example, if there are **10,000 relevant items** in your dataset for the query and your retrieval system returns **1,000 items**, you iterate over those 1,000 items to compute AP. However, you still use **10,000** as $R$ in the denominator to reflect the fact that there are many relevant items the system might have missed.
 
 Both precision and AP measure how accurate the predictions are in identifying relevant items, but AP goes a step further by considering the order in which those relevant items appear. This focus on ranking is crucial in IR, where users expect the most relevant results to appear at the top of the list. While precision simply calculates the proportion of relevant items retrieved, it does not account for their positions in the ranking. As a result, precision cannot evaluate how well a system prioritizes relevant items in higher ranks, which is often key to a good user experience.
+
+<img src="https://ggando.b-cdn.net/ap_img.jpg" alt="img0" width="600" style="display: block; margin: auto;">
 
 ### Average Precision at K (AP@K)
 In practice, we often care more about the retrieval performance in the **top-$K$** results rather than across the entire retrieved list. This is where **AP@K** comes in—it limits the evaluation to the top-$K$ retrieved items, focusing on how well the system ranks relevant items at the top. In the common definition of $AP@K$ I am aware of, the normalization factor is $R_K$, **the number of relevant items within the top-$K$ recommendations**.
