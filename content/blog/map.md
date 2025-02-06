@@ -29,7 +29,7 @@ We have an IR or some kind of search system (items can be anything like document
 
 ### Notation
 Here’s a quick visualization to clarify the key symbols used throughout this post:
-<img src="/img/notation.png" alt="img0" width="600" style="display: block; margin: auto;"/>
+<img src="https://ggando.b-cdn.net/notation.png" alt="img0" width="600" style="display: block; margin: auto;"/>
 
 Symbols:
 - $N$: Total number of retrieved items
