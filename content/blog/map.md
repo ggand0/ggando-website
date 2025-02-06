@@ -62,13 +62,13 @@ I'd also like to mention these before explaining AP. They are basically just reg
 
 <div style="overflow-x: auto; white-space: nowrap;">
 $$
-\text{Recall} = \frac{\text{Number of relevant items retrieved}}{N}
+\text{Recall} = \frac{\text{Number of relevant items retrieved}}{R}
 $$
 
 $$
 \begin{aligned}
-\text{Recall@K} &= \frac{\text{Number of relevant items in top } K}{N} \\\\
-                &= \frac{ R_K }{N}
+\text{Recall@K} &= \frac{\text{Number of relevant items in top } K}{R} \\\\
+                &= \frac{ R_K }{R}
 \end{aligned}
 $$
 </div>
@@ -152,7 +152,7 @@ While the previous definition of AP@K focuses only on the relevant items found w
 To understand how these AP@K definitions behave, let's consider these two examples:
 
 #### Ex1: $AP_1@K$ and $AP_2@K$ are the same
-A system returns a sequence: $$[0, 0, 1, 0, 1, 0, 0, 1, 0, 0]$$ for your query (1 = relevant, 0 = not relevant) where the actual total number of relevan item is 3 (all relevant items retrieved). To build some intuition I made a simple animated example here:
+A system returns a sequence: $$[0, 0, 1, 0, 1, 0, 0, 1, 0, 0]$$ for your query (1 = relevant, 0 = not relevant) where the actual total number of relevant item is 3 (all relevant items retrieved). To build some intuition I made a simple animated example here:
 
 <!--<img src="https://ggando.b-cdn.net/map0.gif" alt="img0" width="500" style="display: block; margin: auto;"/>
 <p class="break-words overflow-hidden">
@@ -173,7 +173,7 @@ In this particular example, the relevant items were scattered across ranks and t
 This example shows that when **all relevant items are retrieved within the top-$K$**, $AP_1@K$ and $AP_2@K$ are identical.
 
 #### Ex2: $AP_1@K$ is 1.0, $AP_2@K$ is low 
-A system returns a sequence: $$[1, 1, 0, 0, 0, 0, 0, 0, 0, 0]$$ where the actual total number of relevan item is 6 (4 items were missed).
+A system returns a sequence: $$[1, 1, 0, 0, 0, 0, 0, 0, 0, 0]$$ where the actual total number of relevant item is 6 (4 items were missed).
 <!--<img src="/vid/apk_ex1.gif" alt="img0" width="500" style="display: block; margin: auto;"/>-->
 
 $$
@@ -249,7 +249,7 @@ This is also commonly known, but in IR evaluation, we often interpolate precisio
 <img src="https://ggando.b-cdn.net/pr2.png" alt="img0" width="500" style="display: block; margin: auto;"/>
 
 ### Realistic example
-In the first example, the system was able to retrieve all the relevant items. What if it fails to retrieve all relevant items? Let's imagine another exmaple when the system returns the sequence:
+In the first example, the system was able to retrieve all the relevant items. What if it fails to retrieve all relevant items? Let's imagine another example when the system returns the sequence:
 $$[1,1,0,1,0,1,0,0,0,0,0,1,0,0]$$ where 1 = relevant, 0 = not, and the number of relevant items is 8. In this case, the recall of PR curve will **not reach 1.0** since the system only retrieved 5 relevant items. **AP = 0.479** and the PR curve will look like this:
 <img src="https://ggando.b-cdn.net/pr3.png" alt="img0" width="500" style="display: block; margin: auto;"/>
 
