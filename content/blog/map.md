@@ -17,88 +17,169 @@ tags = ["image_retrieval", "evaluation"]
 ## Context
 I've been working on an image search system based on image similarity for a client, which returns database images sorted by similarity score given a user's query image. I usually use top-$K$ accuracy metrics when prototyping image search apps, where I check if any relevant image is included in the top-$K$ results or if the top-$K$ samples cover the correct unique categories.
 
-These metrics have been useful for quick evaluations, but as the model’s performance improved on the current datasets, we found that top-$K$ accuracy had become a bit too lenient. So, we decided to include **mean average precision (mAP)** in the evaluation to gain a more nuanced understanding of the model’s retrieval performance.
+These metrics have been useful, but as the model’s performance improved on the current datasets, we found that top-$K$ accuracy had become a bit too lenient. So, we decided to include **mean average precision (mAP)** in the evaluation to gain a more nuanced understanding of the model’s retrieval performance.
 
-## AP and mAP in IR
-I knew that the mAP in object detection (OD) is defined as the area under the precision-recall curve (AUC-PR), but the definition of mAP initially seemed different in the context of information retrieval (IR). After doing some research, I realized that while they are similar, there’s a key difference: **mAP in IR is almost equal to AUC-PR without interpolated precision**, whereas **mAP in OD is explicitly defined as AUC-PR with interpolated precision**. Understanding AP definitions in IR also helped me better understand the meaning of AP in OD.
+## Introduction
+I knew that the AP in object detection (OD) is defined as the area under the precision-recall curve (AUC-PR), but the definition of AP initially seemed different in the context of information retrieval (IR). After doing some research, I realized that while they are similar, there’s a key difference: **AP in IR is almost equal to AUC-PR without interpolated precision**, whereas **AP in OD is explicitly defined as AUC-PR with interpolated precision**. Understanding AP definitions in IR also helped me better understand the meaning of AP in OD.
 
 The mathematical terms used in AP definitions were also confusing because many online resources gloss over whether these terms are calculated based on the entire dataset or just the retrieved sequence. I found [Evidently AI's article](https://www.evidentlyai.com/ranking-metrics/mean-average-precision-map) to be quite comprehensive, but [this article on builtin.com](https://builtin.com/articles/mean-average-precision) is possibly the best resource as it clearly describes how AP is defined in both IR and OD contexts. While these posts already cover the topic well, I'd like to add a few nuances that really helped me understand this metric better.
 
-### Situation
+## Situation
 We have an IR or some kind of search system (items can be anything like documents or images) that retrives $N$ most relevant items, given a user's query $q$ (e.g., a single image, a set of search keywords, etc.). We want to evaluate how good the returned results are for this particular query, and also know how well it performed for $M$ queries on average. The system is not perfect and items within this retrieved list can actually be "relevant" or "not relevant" for the user.
 
+### Notation
+Here’s a quick visualization to clarify the key symbols used throughout this post:
+<img src="/img/notation.png" alt="img0" width="600" style="display: block; margin: auto;"/>
+
+Symbols:
+- $N$: Total number of retrieved items
+- $K$: Cut-off rank for top-$K$ evaluation (user-specified)
+- $R$: Total number of relevant items in the dataset (for a given query)
+- $R_K$: Number of relevant items within the top-$K$ retrieved results
+
+In the above visualization, $K = 5$.
+
+## Precision and Recall in IR
 ### P vs P@K 
 First, we need to understand AP because mAP is just an averaged value of APs. To do so, we start by understanding precision in IR.
-Precision in IR is the same as OD and the denominator is the total number of retrieved (correct) items. Precision@K or P@K is just a precision with a fixed cutoff (K). $K$ is user-specified (something you decide).
+Precision in IR is the same as OD and the denominator is the total number of retrieved (correct) items. $Precision@K$ or $\text{P@}k$ is just a precision with a fixed cutoff ($K$). $K$ is user-specified (something you decide).
 <div style="overflow-x: auto; white-space: nowrap;">
 $$
-\text{Precision} = \frac{\text{Number of relevant items retrieved}}{\text{Total number of retrieved items}}
+\text{Precision} = \frac{\text{Number of relevant items retrieved}}{N}
 $$
+
 $$
-\text{Precision@K} = \frac{\text{Number of relevant items in top } K}{K}
+\begin{aligned}
+\text{Precision@K} &= \frac{\text{Number of relevant items in top } K}{K} \\\\
+                   &= \frac{R_K}{K}
+\end{aligned}
 $$
 </div>
+In this post, I'll just use $\text{P@}k$ from here as it's shorter and convienient.
 
 ### Recall vs recall@K
-I'd also like to mention these before explaining AP. They are basically just regular recalls but recall@K has a cutoff point (K) for calculating the numerator term. Note that the denominator is both the total number of relevant items in the entire dataset for a particular query.
+I'd also like to mention these before explaining AP. They are basically just regular recalls but $Recall@K$ has a cutoff point (K) for calculating the numerator term. Note that the denominator is both the total number of relevant items in the entire dataset for a particular query.
 
 <div style="overflow-x: auto; white-space: nowrap;">
 $$
-\text{Recall} = \frac{\text{Number of relevant items retrieved}}{\text{Total number of relevant items in the dataset}}
+\text{Recall} = \frac{\text{Number of relevant items retrieved}}{N}
 $$
+
 $$
-\text{Recall@K} = \frac{\text{Number of relevant items in top } K}{\text{Total number of relevant items in the dataset}}
+\begin{aligned}
+\text{Recall@K} &= \frac{\text{Number of relevant items in top } K}{N} \\\\
+                &= \frac{ R_K }{N}
+\end{aligned}
 $$
 </div>
 
-### AP vs AP@K
+## AP vs AP@K in IR
 This was the extremely confusing part for me. As for AP@K I found this nice [TDS article](https://towardsdatascience.com/mean-average-precision-at-k-map-k-clearly-explained-538d8e032d2) clarifying this, and I highly recommend going through it first.
 
-
-Now, I'd like to define two types of AP here:
+I'd like to define two types of AP here:
 - 📊 $AP$: Average Precision calculated over the **retrieved ranked list** for query $q$. The result is normalized over the **total number of relevant items in the dataset** ($R$) . Equal to the AUC-PR without interpolated precisions.
-- 🎯 $AP@K$: Average Precision that only considers top-$K$ recommendations for query $q$ in the retrieved sequence. It's normalized over **the number of relevant items within top-$K$ retrieved results($R_K$)**.
+- 🎯 $AP@K$: Average Precision that only considers top-$K$ recommendations for query $q$ in the retrieved sequence. **The normalization factor depends on specific definitions**.
 
-AP is sometimes denoted as $AP(q)$, but people just call it as "AP" because it's usually obvious that we compute AP for a single query in IR. Considering this, here are the definitions that I find intuitive:
+I'll explain the standard AP first, and then AP@K.
+
+### Average Precision (AP)
+AP is sometimes denoted as $AP(q)$, but people just call it as "AP" because it's usually obvious that we compute AP for a single query in IR. Considering this, here is the definition that I find intuitive:
 <div style="overflow-x: auto; white-space: nowrap;">
 $$
-AP = \frac{1}{R} \sum_{k=1}^{N} \text{Precision@k} \times rel(k)
-$$
-$$
-AP@K = \frac{1}{R_K} \sum_{k=1}^{K} \text{Precision@k} \times rel(k)
+AP = \frac{1}{R} \sum_{k=1}^{N} \text{P@}k \times rel(k)
 $$
 </div>
 
-#### **Notation:**
+### **Notation of AP**
 - $N$: Total number of items in the retrieved ranked list.
     - In large-scale systems, this usually refers to the number of **retrieved items**.  
     - In small-scale systems (e.g., when computing a full similarity matrix), $N$ can be the size of **entire dataset**.
 - $R$: Total number of relevant items in the dataset (for the current query)  
-- $K$: Cut-off rank for top-$K$ evaluation  
-- $R_K$: Total number of relevant items within the top-$K$ retrieved results  
-- $\text{Precision@}k$: Precision at rank $k$  
+- $\text{P@}k$: Precision at rank $k$  
 - $rel(k)$: Indicator function (1 if the item at rank $k$ is relevant, 0 otherwise)
 
 Unlike precision, the denominator of AP is the **actual total number of relevant items in the entire dataset** $R$, not just the number of relevant items retrieved. For example, if there are **10,000 relevant items** in your dataset for the query and your retrieval system returns **1,000 items**, you iterate over those 1,000 items to compute AP. However, you still use **10,000** as $R$ in the denominator to reflect the fact that there are many relevant items the system might have missed.
 
+Both precision and AP measure how accurate the predictions are in identifying relevant items, but AP goes a step further by considering the order in which those relevant items appear. This focus on ranking is crucial in IR, where users expect the most relevant results to appear at the top of the list. While precision simply calculates the proportion of relevant items retrieved, it does not account for their positions in the ranking. As a result, precision cannot evaluate how well a system prioritizes relevant items in higher ranks, which is often key to a good user experience.
+
+### Average Precision at K (AP@K)
 In practice, we often care more about the retrieval performance in the **top-$K$** results rather than across the entire retrieved list. This is where **AP@K** comes in—it limits the evaluation to the top-$K$ retrieved items, focusing on how well the system ranks relevant items at the top. In the common definition of $AP@K$ I am aware of, the normalization factor is $R_K$, **the number of relevant items within the top-$K$ recommendations**.
 
-Both precision@K and AP@K measure how accurate the predictions are in identifying relevant items, but AP@K goes a step further by considering the order in which those relevant items appear. This focus on ranking is crucial in IR, where users expect the most relevant results to appear at the top of the list. While precision simply calculates the proportion of relevant items retrieved, it does not account for their positions in the ranking. As a result, precision cannot evaluate how well a system prioritizes relevant items in higher ranks, which is often key to a good user experience.
+Interestingly, there are multiple variants for AP@K definitions. I list two variants which I think are the most common:
 
-#### **A Stricter Definition of AP@K**
-Some people (e.g., [this post](https://medium.com/towards-data-science/choosing-the-right-metric-is-a-huge-issue-99ccbe73de61)) seem to use a stricter version of AP@K that is defined as:
-
-<div style="overflow-x: auto; white-space: nowrap;">
 $$
-AP@K = \frac{1}{\min(K, R)} \sum_{k=1}^{K} \text{Precision@}k \times rel(k)
+\begin{equation}
+AP_1@K = \frac{1}{R_K} \sum_{k=1}^{K} \text{P@}k \times rel(k)
+\end{equation}
 $$
-</div>
 
+$$
+\begin{equation}
+AP_2@K = \frac{1}{\min(K, R)} \sum_{k=1}^{K} \text{P@}k \times rel(k)
+\end{equation}
+$$
+
+For clarity, I'll refer to Definition 1 as $AP_1@K$ and Definition 2 as $AP_2@K$.
+
+### **Notation of AP@K**
+- $K$: Cut-off rank for top-$K$ evaluation (user-specified; i.e., top-10)  
+- $R_K$: Total number of relevant items within the top-$K$ retrieved results  
+- $R$: Total number of relevant items in the dataset (for the current query)  
+- $\text{P@}k$: Precision at rank $k$ (same as AP)  
+- $rel(k)$: Indicator function (1 if the item at rank $k$ is relevant, 0 otherwise) (same as AP)
+
+As far as I have researched, the definition (2) seems to be more common, and also has nice characteristics.  For example, the implementation of `RetrievalMAP()` in torchmetrics ([source](https://github.com/Lightning-AI/torchmetrics/blob/master/src/torchmetrics/functional/retrieval/average_precision.py#L22)) seems to use this definition. There are also a certain amount of people who do use the definition (1). Which one to use is user-specified, and I'll describe the intuitions of these below to help you choose.
+
+
+#### Definition 1
+This definition of **AP@K** normalizes the sum of precision scores by $R_K$, which is the number of relevant items within the top-$K$ results. Intuitively, this version measures **how precise the top-$K$ retrieval result was**, as it’s just an average of Precision@K. If no relevant items are found in the top-$K$, $R_K = 0$, and AP@K is undefined (though often treated as zero in implementations).
+
+However, the issue with this definition is that it’s a purely precision-oriented metric, and **the system can cheat by retrieving only a few relevant items within the top-$K**. For example, if the system retrieves just a single relevant item at rank 1 and misses all other relevant items, AP@K is still 1.0. This makes it less harsh compared to Definition 2, which explicitly penalizes for missing relevant items outside the top-$K.
+
+
+#### Definition 2
 While the previous definition of AP@K focuses only on the relevant items found within the top-$K$ results, this version penalizes missing relevant items even if they were not retrieved within the top-$K$ as the denominator is $\min(K, R)$. This means If there are relevant items outside the top-$K$, the model is penalized for not retrieving them within the top-$K. [This post](https://sdsawtelle.github.io/blog/output/mean-average-precision-MAP-for-recommender-systems.html#Common-Variations-on-AP-Formula) also explains this variation of AP@K formula.
 
-However, I'm not sure if this definition is very common. For example, the implementation of `RetrievalMAP()` in torchmetrics ([source](https://github.com/Lightning-AI/torchmetrics/blob/master/src/torchmetrics/functional/retrieval/average_precision.py#L22)) seems to only calculate the average of precision@k in top-K results.
 
-### mAP Formula in IR
+### AP@K Examples
+To understand how these AP@K definitions behave, let's consider these two examples:
+
+#### Ex1: $AP_1@K$ and $AP_2@K$ are the same
+A system returns a sequence: $$[0, 0, 1, 0, 1, 0, 0, 1, 0, 0]$$ for your query (1 = relevant, 0 = not relevant) where the actual total number of relevan item is 3 (all relevant items retrieved). To build some intuition I made a simple animated example here:
+
+<!--<img src="https://ggando.b-cdn.net/map0.gif" alt="img0" width="500" style="display: block; margin: auto;"/>
+<p class="break-words overflow-hidden">
+This visualization was generated with a Python library `manim`. Source code: [Gist Link](https://gist.github.com/ggand0/9f5230ae384796244136ea089da8d5e4)
+</p>
+-->
+<img src="/vid/apk_ex2.gif" alt="img0" width="500" style="display: block; margin: auto;"/>
+
+As for the summation part, we simply compute a precision at each relevant item and take the average of those:
+```
+precision = TP / (TP + FP)
+precision@3 = 1 / (1 + 2) = 0.333
+precision@5 = 2 / (2 + 3)  = 0.4
+precision@8 = 3 / (3 + 5) = 0.375
+```
+In this particular example, the relevant items were scattered across ranks and two of the items were ranked at 5 and 8 even though they're relevant, resulting in a rather lower AP@10 of 0.369.
+
+This example shows that when **all relevant items are retrieved within the top-$K$**, $AP_1@K$ and $AP_2@K$ are identical.
+
+#### Ex2: $AP_1@K$ is high, $AP_2@K$ is low 
+A system returns a sequence: $$[1, 0, 1, 0, 0, 0, 0, 0, 0, 0]$$ where the actual total number of relevan item is 6 (4 items were missed).
+<img src="/vid/apk_ex1.gif" alt="img0" width="500" style="display: block; margin: auto;"/>
+
+Here, $AP_1@K$ is high because it rewards placing just a few relevant items toward the top, even though 4 relevant items were completely missed. If you are only interested in evaluating the precision-like aspect of system performance, this may be fine. However, $AP_2@K$ penalizes the system for failing to retrieve all relevant items and results in a much lower value.
+
+In most recommender systems, we ideally want to fill the top ranks with as many relevant items as possible. For this example, an ideal ranking would look like this:
+$$[1, 1, 1, 1, 1, 1, 0, 0, 0, 0]$$
+
+In this case, $AP_1@K$ does not distinguish between these two cases and remains 1.0, while $AP_2@K$ properly rewards the improved ranking by achieving a perfect 1.0 score.
+
+This highlights why **$AP_2@K$ is often preferred in practice**, as it better reflects real-world scenarios where we care about **not just ranking precision, but also missing relevant items**.
+
+
+## mAP in IR
 
 The mean Average Precision (mAP) is simply the AP values averaged over multiple queries. If we have $M$ queries, each with its own AP, the formulae for mAP and mAP@K are:
 
@@ -120,40 +201,9 @@ Where:
 
 $M$ is just a user-specified parameter, so for example you can compute mAP for all the query items in your test set or per-category mAPs depending on your dataset.
 
-
-### AP@K Example
-A system returns a sequence: $$[0, 0, 1, 0, 1, 0, 0, 1, 0, 0]$$ for your query (1 = relevant, 0 = not relevant) where the actual total number of relevan item is 3 (all relevant items retrieved).
-To build some intuition I made a simple animated example here:
-
-<img src="https://ggando.b-cdn.net/map0.gif" alt="img0" width="500" style="display: block; margin: auto;"/>
-<p class="break-words overflow-hidden">
-This visualization was generated with a Python library `manim`. Source code: [Gist Link](https://gist.github.com/ggand0/9f5230ae384796244136ea089da8d5e4)
-</p>
-
-As you can see, we simply compute a precision at each relevant item and take the average of those:
-```
-precision = TP / (TP + FP)
-precision@3 = 1 / (1 + 2) = 0.333
-precision@5 = 2 / (2 + 3)  = 0.4
-precision@8 = 3 / (3 + 5) = 0.375
-```
-In this particular example, the relevant items were scattered across ranks and two of the items were ranked at 5 and 8 even though they're relevant, resulting in a rather lower AP@10 of 0.369.
-
-### My initial misunderstandings
-As someone who is still a noob in IR, whether we're considering the entire database or just the retrieved sequence was the source of my confusion. For example, I wondered why we divide by 3, not the actual total number of relevant items in the earlier example at first, since the definitions of AP available online all say the denominator of AP is "the total number of relevant items". It turns out that I was just looking at the visualization of AP@K while refering to the definition of AP.
-
-At some point, I also misunderstood $N$ in the AP formula as the size of the entire dataset, not the length of the retrieved sequence. but this also turned out to be incorrect as per the definition. **AP is defined only for a ranked list of retrieved items.** As for the relevant items that weren’t retrieved in the database, we can’t define precisions for those items because they weren’t assigned a rank. This is analogous to the fact that we can't compute precision for non-existent bounding boxes that weren't predicted (it’s obvious when we think of it this way!). However, $N$ **can be** the size of full dataset **if** you retrieve the entire dataset by computing a full similarity matrix, for example. Very confusing!
-
-It was also confusing to see how the Precision-Recall (PR) curve in most resources always reaches a recall of 1.0, even though in practice, it's common for the recall of a retrieved sequence to **not** reach 1.0. After observing PR curves that always reach a recall of 1.0, I mistakenly thought that the definition of AP was normalized *locally* within the retrieved sequence, using $R_K$ as the denominator. 
-
-While this is the case for $AP@K$  in some definitions, it's incorrect for **AP** because recall is defined based on the total number of relevant items in the dataset $R$, not just the retrieved items. Both AP and the Precision-Recall curve are calculated using the points within the retrieved sequence, but they are **normalized by $R$** to account for all relevant items, including those that were not retrieved.
-
-Depending on your prompts, even GPT agents seem to mix these things up. So, I recommend reviewing the official definitions of these metrics in IR textbooks to confirm the standard explanations. For example, page 166 of the Manning's book "An Introduction to Information Retrieval" ([PDF link](https://nlp.stanford.edu/IR-book/pdf/irbookprint.pdf)) defines mAP without `@K`. Another good definition of AP is page 70-71 of the Büttcher et al.'s book ([PDF link](https://mitmecsept.wordpress.com/wp-content/uploads/2018/05/stefan-bc3bcttcher-charles-l-a-clarke-gordon-v-cormack-information-retrieval-implementing-and-evaluating-search-engines-2010-mit.pdf)).
-
-
-## More intuitions
+## Relation to PR Curve
 ### Precision-Recall Curve
-**AP in IR is almost equal to AUC-PR without interpolated precision** because it’s calculated as a sum of precisions at every relevant item. The actual AUC-PR may differ slightly since it's defined as the continuous integration over the entire precision-recall curve.
+**AP (not AP@K) in IR is almost equal to AUC-PR without interpolated precision** because it’s calculated as a sum of precisions at every relevant item. The actual AUC-PR may differ slightly since it's defined as the continuous integration over the entire precision-recall curve.
 
 In contrast, **AP in OD is explicitly defined as the AUC-PR with interpolated precision**, where the PR curve is smoothed to be non-decreasing. This interpolation stabilizes the evaluation, making AP in OD exactly equal to the area under the interpolated PR curve.
 
@@ -236,6 +286,19 @@ Page 159 of the manning's book also mentions point 2:
 From here, evaluation metrics seemed to shift towards "averaging techniques" such as AP@K and "Precision at 11 Recall Levels" (another way to average precisions at fixed recall levels) in 70s-80s. However, it was the TREC (Text REtrieval Conference) in the 90s that particulary accelerated the adoption of this metric.
 
 Before TREC, researchers used different datasets and metrics, making it hard to make fair comparision between IR systems. TREC introduced shared datasets and standard evaluation protocols, similar to what we see in many ML benchmarks today. I think that's why the TREC and metrics used in it became popular from that point on.
+
+## My initial misunderstandings
+As someone who is still a noob in IR, whether we're considering the entire database or just the retrieved sequence was the source of my confusion. For example, I wondered why we divide by 3, not the actual total number of relevant items in the earlier example at first, since the definitions of AP available online all say the denominator of AP is "the total number of relevant items". It turns out that I was just looking at the visualization of AP@K while refering to the definition of AP.
+
+At some point, I also misunderstood $N$ in the AP formula as the size of the entire dataset, not the length of the retrieved sequence. but this also turned out to be incorrect as per the definition. **AP is defined only for a ranked list of retrieved items.** As for the relevant items that weren’t retrieved in the database, we can’t define precisions for those items because they weren’t assigned a rank. This is analogous to the fact that we can't compute precision for non-existent bounding boxes that weren't predicted (it’s obvious when we think of it this way!). However, $N$ **can be** the size of full dataset **if** you retrieve the entire dataset by computing a full similarity matrix, for example. Very confusing!
+
+It was also confusing to see how the Precision-Recall (PR) curve in most resources always reaches a recall of 1.0, even though in practice, it's common for the recall of a retrieved sequence to **not** reach 1.0. After observing PR curves that always reach a recall of 1.0, I mistakenly thought that the definition of AP was normalized *locally* within the retrieved sequence, using $R_K$ as the denominator. 
+
+While this is the case for $AP@K$  in some definitions, it's incorrect for **AP** because recall is defined based on the total number of relevant items in the dataset $R$, not just the retrieved items. Both AP and the Precision-Recall curve are calculated using the points within the retrieved sequence, but they are **normalized by $R$** to account for all relevant items, including those that were not retrieved.
+
+Depending on your prompts, even GPT agents seem to mix these things up. So, I recommend reviewing the official definitions of these metrics in IR textbooks to confirm the standard explanations. For example, page 166 of the Manning's book "An Introduction to Information Retrieval" ([PDF link](https://nlp.stanford.edu/IR-book/pdf/irbookprint.pdf)) defines mAP without `@K`. Another good definition of AP is page 70-71 of the Büttcher et al.'s book ([PDF link](https://mitmecsept.wordpress.com/wp-content/uploads/2018/05/stefan-bc3bcttcher-charles-l-a-clarke-gordon-v-cormack-information-retrieval-implementing-and-evaluating-search-engines-2010-mit.pdf)).
+
+
 
 ## Conclusion
 - AP@K only sums precisions within top-K results
