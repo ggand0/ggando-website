@@ -1,5 +1,5 @@
 +++
-title = "Why mAP Confused Me in IR (And How I Finally Understood It)"
+title = "Why AP Confused Me in IR (And How I Finally Understood It)"
 date = 2025-01-30
 draft = false
 
