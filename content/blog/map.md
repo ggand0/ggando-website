@@ -4,7 +4,7 @@ date = 2025-01-30
 draft = false
 
 [extra]
-thumb = "img/map_datauni0_640.jpg"
+thumb = "img/map_datauni1_640.jpg"
 math = true
 
 [taxonomies]
@@ -12,7 +12,7 @@ categories = ["blog"]
 tags = ["image_retrieval", "evaluation"]
 +++
 
-<img src="https://ggando.b-cdn.net/map_datauni0_1280.jpg" alt="img0" width="500" style="display: block; margin: auto;"/>
+<img src="https://ggando.b-cdn.net/map_datauni1_1280.jpg" alt="img0" width="500" style="display: block; margin: auto;"/>
 
 ## Context
 I've been working on an image search system for a client, which retrieves most similar images from a database given a user's query image. I usually use **top-$K$ accuracy metrics** when prototyping image similarity apps, where I check if any relevant image appears in the top-$K$ recommendations or whether the query's class label is included in the unique top-$K$ categories of the retrieved result.
