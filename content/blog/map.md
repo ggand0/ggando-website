@@ -251,6 +251,11 @@ NOTE: <u>This assumes an oversimplified situation where the total number of rele
 
 The PR curve is defined by (precision, recall) points, with recall increasing at each relevant item in the retrieved sequence. The PR curve can include additional (precision, recall) points even after recall reaches 1.0, reflecting further retrieved items. However, recall remains constant while precision declines as more non-relevant items are included. This point is discussed in [this scikit-learn github issue](https://github.com/scikit-learn/scikit-learn/issues/23213).
 
+#### Starting point of PR curve
+In IR textbooks and [Victor's lecture](https://www.youtube.com/watch?v=yjCMEjoc_ZI), the starting point of PR curve is either (0, 0) or (1/R, 1). However, people often seem to add (0, 1) as the initial point for convention. For example, sklearn does this and `precision_recall_curve` returns a PR curve including this point (related discussion [here](https://github.com/scikit-learn/scikit-learn/issues/4223)). This appears to be another "user-specified" point.
+
+I think it's fine to include this anchor point on Y axis for visualization, as it makes plots look nicer and it's easier to compare different curves this way, but if you need to be mathematically rigorous in IR context I'd avoid including this point. I also found [this post](https://classeval.wordpress.com/introduction/introduction-to-the-precision-recall-plot/) mentioning how to plot the first point in the classification context.
+
 ### Interpolated precision
 This is also commonly known, but in IR evaluation, we often interpolate precision values to smooth out fluctuations (the sawtooth shape) in standard PR curves. This allows for a clearer comparison of PR curves across different systems. However, note that AP does not approximate the area under the PR curve with interpolated precision.
 <img src="https://ggando.b-cdn.net/pr2.png" alt="img0" width="500" style="display: block; margin: auto;"/>
