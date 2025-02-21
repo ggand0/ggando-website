@@ -46,3 +46,7 @@ main {
         flex-direction: column; /* Stack ToC and content vertically */
     }
 }
+
+.flex.items-center {
+    line-height: 1.5; /* Adjust as needed */
+}

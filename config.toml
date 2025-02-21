@@ -51,6 +51,7 @@ display_id = true
 display_bio = true
 display_avatar = true
 projects_page = true                  # Display projects page
+til_page = true
 
 recent = false
 recent_max = 5

@@ -27,11 +27,49 @@
     </section>
 
     <!-- Navigation Links -->
-    <section class="flex justify-between items-center py-4">
+    
+    <section class="flex flex-col md:flex-row justify-between items-center py-4">
+  <div class="flex gap-4 mb-4 md:mb-0">
+    <a class="text-lg text-sky-400 hover:underline" href="{{ config.base_url }}/blog">Blog</a>
+    {% if config.extra.til_page -%}
+    <a class="text-lg text-sky-400 hover:underline" href="{{ config.base_url }}/til">Notes</a>
+    {% endif -%}
+    {% if config.extra.projects_page -%}
+    <a class="text-lg text-sky-400 hover:underline" href="{{ config.base_url }}/projects">Projects</a>
+    {% endif -%}
+  </div>
+  <div class="flex gap-4 items-center">
+    {% for link in config.extra.links -%}
+    <a class="text-lg" href="{{ link.url }}" aria-label="{{ link.name }}" target="_blank" rel="noreferrer noopener">
+      {% set icon_path = "static/icon/" ~ link.icon ~ ".svg" %}
+      {% set icon = load_data(path=icon_path) %}
+      <span class="w-6 h-6 inline-block">{{ icon | safe }}</span>
+    </a>
+    {% endfor %}
+    {% set moon_icon = load_data(path="static/icon/moon.svg") %}
+    {% set sun_icon = load_data(path="static/icon/sun.svg") %}
+    <button id="theme-toggle" class="w-6 h-6" aria-label="theme switch" data-moon-icon="{{ moon_icon }}" data-sun-icon="{{ sun_icon }}">
+      <span class="hidden dark:inline-block">{{ sun_icon | safe }}</span>
+      <span class="inline-block dark:hidden">{{ moon_icon | safe }}</span>
+    </button>
+  </div>
+</section>
+    
+    
+    
+    
+    
+    
+    
+    
+    <!--<section class="flex justify-between items-center py-4">
       <div class="flex gap-4">
         <a class="text-lg text-sky-400 hover:underline" href="{{ config.base_url }}/blog">Blog</a>
         {% if config.extra.projects_page -%}
         <a class="text-lg text-sky-400 hover:underline" href="{{ config.base_url }}/projects">Projects</a>
+        {% endif -%}
+        {% if config.extra.til_page -%}
+        <a class="text-lg text-sky-400 hover:underline" href="{{ config.base_url }}/til">TIL</a>
         {% endif -%}
       </div>
       <div class="flex gap-4 items-center">
@@ -49,7 +87,7 @@
           <span class="inline-block dark:hidden">{{ moon_icon | safe }}</span>
         </button>
       </div>
-    </section>
+    </section>-->
 
     <!-- Markdown Content -->
     <section class="prose dark:prose-invert mb-16">

@@ -1,0 +1,35 @@
+{% extends "_base.html" %}
+
+{% block page %}til{% endblock page %}
+{% block lang %}{% if section.extra.lang %}{{ section.extra.lang }}{% else %}{{ section.lang }}{% endif %}{% endblock lang %}
+{% block title %}{{ section.title }}{% endblock title %}
+{% block desc %}
+<meta name="description" content="{{ section.description }}">
+{% endblock desc %}
+
+{% block content %}
+{% include "_header.html" %}
+
+<div class="flex justify-center">
+  <main class="py-16 px-6 max-w-prose w-full">
+
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-8">{{ section.title }}</h1>
+
+    <div class="prose dark:prose-invert font-normal">
+      {% for post in section.pages | sort(attribute="date", order="desc") | reverse %}
+        <article class="mb-8">
+          <h2 class="text-xl font-semibold">{{ post.title }}</h2>
+          <time class="text-gray-600 dark:text-gray-400 text-sm">{{ post.date | date }}</time>
+          <div class="mt-4">{{ post.content | safe }}</div>
+          {% if not loop.last %}
+            <!--<hr class="my-6 border-gray-300 dark:border-gray-600 opacity-60">-->
+            <hr class="my-6 border-t-2 border-teal-500 dark:border-teal-400 opacity-75">
+          {% endif %}
+        </article>
+      {% endfor %}
+    </div>
+  </main>
+</div>
+
+{% include "_footer.html" %}
+{% endblock content %}
