@@ -13,12 +13,16 @@
 <div class="flex justify-center">
   <main class="py-16 px-6 max-w-prose w-full">
 
-    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-8">{{ section.title }}</h1>
+    <!--<h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-8">{{ section.title }}</h1>-->
+    
 
     <div class="prose dark:prose-invert font-normal">
       {% for post in section.pages | sort(attribute="date", order="desc") | reverse %}
+        <h2 class="text-xl font-semibold">
+          <a href="{{ post.permalink }}" class="text-blue-600 dark:text-blue-400 hover:underline">{{ post.title }}</a>
+        </h2>
         <article class="mb-8">
-          <h2 class="text-xl font-semibold">{{ post.title }}</h2>
+          <!--<h2 class="text-xl font-semibold">{{ post.title }}</h2>-->
           <time class="text-gray-600 dark:text-gray-400 text-sm">{{ post.date | date }}</time>
           <div class="mt-4">{{ post.content | safe }}</div>
           {% if not loop.last %}
