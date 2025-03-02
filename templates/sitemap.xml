@@ -18,6 +18,14 @@
         <lastmod>2024-02-03</lastmod>
     </url>
     <url>
+        <loc>https://ggando.com/blog/second/</loc>
+        <lastmod>2024-01-01</lastmod>
+    </url>
+    <url>
+        <loc>https://ggando.com/blog/viewskater0/</loc>
+        <lastmod>2025-03-01</lastmod>
+    </url>
+    <url>
         <loc>https://ggando.com/blog/zola/</loc>
         <lastmod>2025-01-23</lastmod>
     </url>
@@ -28,16 +36,28 @@
         <loc>https://ggando.com/categories/blog/</loc>
     </url>
     <url>
+        <loc>https://ggando.com/categories/one/</loc>
+    </url>
+    <url>
+        <loc>https://ggando.com/categories/til/</loc>
+    </url>
+    <url>
         <loc>https://ggando.com/projects/</loc>
     </url>
     <url>
         <loc>https://ggando.com/tags/</loc>
     </url>
     <url>
+        <loc>https://ggando.com/tags/blog/</loc>
+    </url>
+    <url>
         <loc>https://ggando.com/tags/computer-vision/</loc>
     </url>
     <url>
         <loc>https://ggando.com/tags/evaluation/</loc>
+    </url>
+    <url>
+        <loc>https://ggando.com/tags/iced/</loc>
     </url>
     <url>
         <loc>https://ggando.com/tags/image-retrieval/</loc>
@@ -47,5 +67,27 @@
     </url>
     <url>
         <loc>https://ggando.com/tags/rust/</loc>
+    </url>
+    <url>
+        <loc>https://ggando.com/tags/wgpu/</loc>
+    </url>
+    <url>
+        <loc>https://ggando.com/til/</loc>
+    </url>
+    <url>
+        <loc>https://ggando.com/til/20250301/</loc>
+        <lastmod>2025-03-01</lastmod>
+    </url>
+    <url>
+        <loc>https://ggando.com/til/til-first/</loc>
+        <lastmod>2025-02-19</lastmod>
+    </url>
+    <url>
+        <loc>https://ggando.com/til/til-second/</loc>
+        <lastmod>2025-02-20</lastmod>
+    </url>
+    <url>
+        <loc>https://ggando.com/til/wgpu-font/</loc>
+        <lastmod>2025-02-21</lastmod>
     </url>
 </urlset>
