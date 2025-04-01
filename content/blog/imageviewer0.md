@@ -30,7 +30,7 @@ In your code, you declare the layout of your app; in Iced these are often widget
 Initially I wondered if there’s any critical feature missing in Iced to build my app, but I thought I could switch to egui and start over. Interestingly, that moment never came; whenever I got stuck I was able to find the necessary information on GitHub or in the Discord community. I also referred to how other people are building their codebase (e.g Halloy and Sniffnet).
 
 ## Dynamic Caching
-<img src="/vid/vs_cache0.gif" alt="img0" width="500" style="display: block; margin: auto;"/>
+<img src="https://ggando.b-cdn.net/vs_cache0.gif" alt="img0" width="500" style="display: block; margin: auto;"/>
 Loading images from disk before every rendering (synchronous image loading) is slow, so I implemented a dynamic image caching mechanism. Since I was looking to make a slider UI similar to emulsion where the user navigates through a list of images left and right, I adopted the sliding window type cache (a.k.a. ring cache) that slides along with the currently displayed image.
 Structure-wise this is just an array of cached images; the current displayed image is stored at the center element, and you have N pre-loaded images towards the left and right end of the cache. When the user presses a navigation key (left or right), the app renders the prev/next cached image from it and then loads a new image asynchronously, inserting it at the beginning or end of the cache to prepare for the next rendering.
 
