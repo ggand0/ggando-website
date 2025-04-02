@@ -59,4 +59,4 @@ Building things in **Rust** comes with its challenges, but overall this has been
 - **Iced is developer-friendly** and great for prototyping
 - **Iced is a solid choice** for high-performance image rendering and complex layouts
 
-I plan to keep improving the app, and add features like **visualizing object detection datasets**. Thank you for reading this post! If you’re curious about the resulting app, here’s a link to the repo: [https://github.com/ggand0/viewskater]([https://github.com/ggand0/viewskater])
+I plan to keep improving the app, and add features like **visualizing object detection datasets**. Thank you for reading this post! If you’re curious about the resulting app, here’s a link to the repo: [https://github.com/ggand0/viewskater](https://github.com/ggand0/viewskater)
