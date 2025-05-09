@@ -21,12 +21,13 @@ Initially, I referred to [this gist](https://gist.github.com/rsms/929c9c2fec231f
 
 ### Step 0: Patch winit to Remove Private API Usage
 Before starting the App Store release process, you need to patch winit if your app depends on it.
-As of May 2025, winit (0.30.x) still includes a reference to a private macOS API: _CGSSetWindowBackgroundBlurRadius.
+As of May 2025, winit (0.30.x) still includes a reference to a private macOS API: `_CGSSetWindowBackgroundBlurRadius`.
 Even if your app doesn't use any blur functionality, the App Store will reject your binary just for containing the symbol.
-To fix this, you need to replace the deprecated call with a safe alternative using NSVisualEffectView.
+To fix this, you need to replace the deprecated call with a safe alternative using `NSVisualEffectView`. Refer to [this github issue](https://github.com/rust-windowing/winit/issues/4205) for details.
+
 #### How to Patch
 1. Fork winit or make a local copy.
-2. Replace the set_blur function in winit/src/platform_impl/apple/appkit/window_delegate.rs
+2. Replace the `set_blur` function in `winit/src/platform_impl/apple/appkit/window_delegate.rs`
 	with the following version (based on @Areopagitics' fix):
     <details>
     <summary>Click to see the code</summary>
@@ -103,7 +104,7 @@ Relevant links:
 
 
 #### 1-1. Create Bundle ID for your app
-1. Go to Apple Developer account page -> "Identifiers"
+1. Go to Apple Developer account page -> **"Identifiers"**
 2. Click the "+" icon
 3. Select "App IDs" -> Continue
 4. Select "App"
@@ -127,7 +128,7 @@ After this you'll see a page like this for configuring screenshots, description,
 <img src="https://ggando.b-cdn.net/app_store_connect0.png" alt="img0" width="500" style="display: block; margin: auto;"/>
 
 ### Step 2: Bundle your app
-I use the [cargo-bundle](https://github.com/burtonageo/cargo-bundle) crate to build a .app bundle for macOS. After specifying app metadata in your Cargo.toml, you can run `cargo bundle --release`.
+I use the [cargo-bundle](https://github.com/burtonageo/cargo-bundle) crate to build a **.app bundle** for macOS. After specifying app metadata in your `Cargo.toml`, you can run `cargo bundle --release`.
 ```toml
 # Used on macOS for generating .app bundles via `cargo bundle`
 [target.'cfg(target_os = "macos")'.dev-dependencies]
@@ -141,7 +142,7 @@ short_description = "A fast image viewer for browsing large collections of image
 ```
 
 #### Prepare app icon
-App Store Connect requires you to include a .icns file with specific resolutions. If it’s missing, you’ll get an email like this:
+App Store Connect requires you to include a **.icns** file with specific resolutions. If it’s missing, you’ll get an email like this:
 
 > ITMS-90236: Missing required icon - The application bundle does not contain an icon in ICNS format, containing both a 512x512 and a 512x512@2x image.
 
@@ -181,7 +182,7 @@ short_description = "A fast image viewer for browsing large collections of image
 ### Step 3: Set Up Info.plist, Entitlements, and Provisioning Profile
 Before signing and packaging your Rust app, you need to prepare a few required files inside the .app bundle:
 #### 1. Info.plist
-You need an Info.plist file at YourApp.app/Contents/Info.plist.
+You need an Info.plist file at `YourApp.app/Contents/Info.plist`.
 This tells macOS basic metadata about your app.
 At minimum, your Info.plist should include:
 ```xml
@@ -233,13 +234,13 @@ Missing this file will trigger a rejection after upload:
 > TMS-90296: App sandbox not enabled - The following executables must include the 'com.apple.security.app-sandbox' entitlement with a Boolean value of true in the entitlements property list: [[com.ggando.viewskater.pkg/Payload/ViewSkater.app/Contents/MacOS/viewskater]] 
 
 #### 3. Provisioning Profile
-You need a .provisionprofile (also called a provisioning profile) tied to your App ID.
+You need a `.provisionprofile` (also called a provisioning profile) tied to your App ID.
 Steps:
-1. Go to Apple Developer account page -> "Certificates" -> in the "Certificates, Identifiers & Profiles" page, select the "Profiles" tab -> click the "+" icon
+1. Go to Apple Developer account page -> "Certificates" -> in the "Certificates, Identifiers & Profiles" page, select the **"Profiles"** tab -> click the "+" icon
 2. Select the "App Store Connect" option under the "Distribution" section -> "Continue" -> Select an App ID from the pulldown menu -> "Continue" -> generate a provision profile
 3. Download the .provisionprofile file.
 4. Copy it into your .app bundle at:
-	YourApp.app/Contents/embedded.provisionprofile
+	`YourApp.app/Contents/embedded.provisionprofile`
 
 I'm not 100% sure, but I believe this file is required. In my case, including only the Entitlements.plist resulted in a rejection with the following error, suggesting the provisioning profile must also be present:
 
@@ -260,12 +261,12 @@ Code signing proves that your app comes from a verified Apple developer and is r
 Before you can sign your app, you’ll need to generate a certificate request and download the necessary certificates from the Apple Developer site.
 
 #### 4-1. Create and install a Distribution Certificate
-You’ll need a “3rd Party Mac Developer Application” certificate to code-sign your .app.
+You’ll need a **“3rd Party Mac Developer Application”** certificate to code-sign your .app.
 
 1. Open Keychain Access → Certificate Assistant → Request a Certificate from a Certificate Authority....
-2. Fill in your info, select “Saved to disk”, and generate a .certSigningRequest (CSR) file.
+2. Fill in your info, select “Saved to disk”, and generate a `.certSigningRequest` (**CSR**) file.
 3. Go to the Apple Developer Certificates page.
-4. Click +, and under Production, choose “Mac App Distribution” (this is officially called 3rd Party Mac Developer Application).
+4. Click +, and under Production, choose **“Mac App Distribution”** (this is officially called 3rd Party Mac Developer Application).
 5. Upload your CSR (certificate signing request) just like before.
 6. Download the generated .cer file and double-click it to install into Keychain Access.
 
@@ -297,10 +298,10 @@ Important:
 
 ### Step 5. Create a .pkg Installer for App Store Submission
 #### 5-1. Get certificates for installers
-First, you need a “3rd Party Mac Developer Installer” certificate (this is different from the one we used for code-signing).
+First, you need a **“3rd Party Mac Developer Installer”** certificate (this is different from the one we used for code-signing).
 The process the same as the previous "3rd Party Mac Developer Application" certificate we used for code-signing. You can re-use the same CSR file you generated before.
 1. Go to Apple Developer Certificates.
-2. Click +, and under Production, choose “Mac Installer Distribution” (this is officially called 3rd Party Mac Developer Installer).
+2. Click +, and under Production, choose **“Mac Installer Distribution”** (this is officially called 3rd Party Mac Developer Installer).
 3. Upload your CSR (certificate signing request) just like before.
 4. Download and install the .cer file into Keychain Access.
 This certificate will be used to sign the installer package (.pkg), not the app itself.
