@@ -438,3 +438,12 @@ If everything looks good, go ahead and hit the **"Add for Review"** button at th
 Once your app is approved, it should appear on the App Store within 24 hours. Cheers!
 
 For reference, [here's the link to my app](https://apps.apple.com/us/app/viewskater/id6745068907) if you want to check it out.
+
+---
+
+### Bonus: Automating the Tedious Parts
+
+After repeating this process a few times, I generated a shell script with GPT to automate the bundling, signing, packaging, and uploading steps.
+
+➡️ [Here’s the script as a GitHub Gist](https://gist.github.com/ggand0/0f6c266a999cf9b03f9ca560352c2bb0) — edit the constants at the top before running.
+  
