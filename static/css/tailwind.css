@@ -51,16 +51,23 @@ main {
     line-height: 1.5; /* Adjust as needed */
 }
 
-pre, code {
-    white-space: pre-wrap;       /* wraps long lines */
-    word-break: break-word;      /* breaks long words if needed */
-    overflow-wrap: break-word;   /* added compatibility */
-}
 
-blockquote {
-    white-space: pre-wrap;
+.prose pre code {
+    white-space: pre !important;
+  }
+  
+
+code {
+    white-space: break-spaces;
     word-break: break-word;
-    overflow-wrap: break-word;
+}
+  
+blockquote {
+    word-break: break-word;
+}
+  
+blockquote code {
+    white-space: break-spaces;
 }
   
   
