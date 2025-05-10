@@ -119,7 +119,7 @@ Relevant links:
 Platforms: "macOS"  
 Name: your app name  
 Primary Language: your language  
-Bundle ID: your app identifier created in 1-1  
+Bundle ID: your app identifier created in **1-1**  
 SKU: some ID you'd like to use, it can be anything. e.g. "viewskater"  
 User Access: "Full Access"
 
@@ -152,7 +152,7 @@ It looks like you could include @2x images with cargo-bundle if you explicitly n
 1. Create an icon.iconset folder with files named exactly:
 ```
 icon_16x16.png
-icon_16x16@2x.png'
+icon_16x16@2x.png
 icon_32x32.png
 icon_32x32@2x.png
 icon_128x128.png
@@ -162,6 +162,7 @@ icon_256x256@2x.png
 icon_512x512.png
 icon_512x512@2x.png
 ```
+where the resolution of `icon_16x16.png` is 16x16px, `icon_16x16@2x.png` is 32x32px, and so on.
 
 
 2. Use macOS built-in tool:
@@ -205,7 +206,7 @@ At minimum, your Info.plist should include:
 ```
 
 Notes:
-- CFBundleIdentifier must match the App ID you registered on App Store Connect.
+- CFBundleIdentifier must match the Bundle ID you created on App Store Connect earlier.
 - LSMinimumSystemVersion is required. Without it, your build will be rejected:
 
 > ITMS-90983: Missing LSMinimumSystemVersion - The LSMinimumSystemVersion key must be present in the Info.plist file when submitting a macOS app.
@@ -267,7 +268,7 @@ You’ll need a **“3rd Party Mac Developer Application”** certificate to cod
 2. Fill in your info, select “Saved to disk”, and generate a `.certSigningRequest` (**CSR**) file.
 3. Go to the Apple Developer Certificates page.
 4. Click +, and under Production, choose **“Mac App Distribution”** (this is officially called 3rd Party Mac Developer Application).
-5. Upload your CSR (certificate signing request) just like before.
+5. Upload your CSR (certificate signing request) file.
 6. Download the generated .cer file and double-click it to install into Keychain Access.
 
 Confirm the installation by running `security find-identity -v` in your terminal.
@@ -326,7 +327,7 @@ Explanation:
 This .pkg is what you upload to App Store Connect when submitting your app for review.
 
 ### Step 6. Upload the .pkg with Transporter
-Transporter is Apple’s official tool for uploading app builds to App Store Connect. It's a way to deliver signed binaries to the App Store. You can use the GUI app, but I ended up using the command-line tool because the GUI kept failing with vague errors.
+Transporter is Apple’s official tool for uploading app builds to App Store Connect. It's a way to deliver signed binaries to the App Store.
 
 #### 6-1. Wrap the `.pkg` in an `.itmsp` directory
 Transporter doesn’t accept raw `.pkg` files. You need to wrap your package in an .itmsp directory, which contains both the .pkg and a metadata.xml descriptor.
