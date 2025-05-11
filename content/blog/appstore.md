@@ -16,7 +16,7 @@ tags = ["rust", "mac", "winit"]
 ### Introduction
 Last week I released my Rust app ([an image viewer](https://github.com/ggand0/viewskater)) on macOS app store. The whole submission process is tedious, and I had to repeat the upload steps multiple times to fix issues with my binaries. I’m writing this post to document the entire process step by step.
 
-Initially, I referred to [this gist](https://gist.github.com/rsms/929c9c2fec231f0cf843a1a746a416f5), but it’s aimed at distributing apps outside the App Store. If you're targeting the App Store, the process differs in a few key ways, which I'll cover here.
+Initially, I referred to [this gist](https://gist.github.com/rsms/929c9c2fec231f0cf843a1a746a416f5), but it’s aimed at distributing apps outside the App Store. If you're targeting the App Store, some of the steps are different, which I’ll cover here.
 
 
 ### Step 0: Patch winit to Remove Private API Usage
@@ -445,5 +445,5 @@ For reference, [here's the link to my app](https://apps.apple.com/us/app/viewska
 
 After repeating this process a few times, I generated a shell script with GPT to automate the bundling, signing, packaging, and uploading steps.
 
-➡️ [Here’s the script as a GitHub Gist](https://gist.github.com/ggand0/0f6c266a999cf9b03f9ca560352c2bb0) — edit the constants at the top before running.
+[Here’s the script as a GitHub Gist](https://gist.github.com/ggand0/0f6c266a999cf9b03f9ca560352c2bb0). Edit the constants at the top before running.
   
