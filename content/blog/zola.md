@@ -4,7 +4,7 @@ date = 2025-01-23
 draft = false
 
 [extra]
-thumb = "img/zola.webp"
+thumb = "https://ggando.b-cdn.net/zola_cropped1.jpg"
 
 [taxonomies]
 categories = ["blog"]

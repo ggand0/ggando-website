@@ -4,7 +4,7 @@ date = 2024-01-01
 draft = false
 
 [extra]
-thumb = "img/mitvision.webp"
+thumb = "https://ggando.b-cdn.net/mitvision_640px.jpg"
 
 [taxonomies]
 categories = ["blog"]
