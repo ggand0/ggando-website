@@ -19,7 +19,7 @@ Rewarding outcome of actions is what makes games more engaging to play, and I th
 I’ve been building a 3D RTS game as a hobby recently, and wanted to implement a decent billboard-based explosion effect since it's essential for making the gameplay more satisfying.
 However, I realized that there seem to be no open-source examples of this as far as I researched online. Perhaps it's also because there's asset stores you can sell and people are not encouraged to release assets for free.
 
-So, I decided to port an existing asset into Bevy. I found a free Unity Store asset called WarFX which I thought would fit perfectly. It has billboard-based particle style aesthetic seen in early 2000s RTS games like Empire at War or Company of Heroes 1, which is exactly what I'm going for in terms of game design.
+So, I decided to port an existing asset into Bevy. I found a free Unity Store asset called [WarFX](https://assetstore.unity.com/packages/vfx/particles/war-fx-5669) which I thought would fit perfectly. It has billboard-based particle style aesthetic seen in early 2000s RTS games like Empire at War or Company of Heroes 1, which is exactly what I'm going for in terms of game design.
 #### YAML conversion and implementation
 Unity stores prefabs in a binary format by default, which makes them impossible for AI tools (or humans) to analyze programmatically. Fortunately, Unity can serialize them as YAML instead by enabling the "Force Text" mode on the unity prefab file. This way we can utilize LLMs to go through the details without having to use your eyes to reproduce them from scratch.
 1. Edit → Project Settings → Editor → Asset Serialization → Mode
@@ -48,11 +48,11 @@ Without lerp:                 With lerp:
                               └─────────────────┘
                                 soft falloff, no visible edge
 ```
-The lerp(0.5, color, mask) formula I used was correct for Unity, but Unity and Bevy implement the multiply blend differently:
+The `lerp(0.5, color, mask)` formula I used was correct for Unity, but Unity and Bevy implement the multiply blend differently:
 - Unity : `dst * (src.rgb + src.a)`
 - Bevy AlphaMode::Multiply : `dst * (src.rgb + 1 - src.a)`
 
-They apparently use different blend equations. This difference was breaking the math, and I had to override Bevy's blend state via Material::specialize() to match Unity's equation. I learned that common operations like "multiply blend" can have different implementations between engines.
+They apparently use different blend equations. This difference was breaking the math, and I had to override Bevy's blend state via `Material::specialize()` to match Unity's equation. I learned that common operations like "multiply blend" can have different implementations between engines.
 Here's the resulting explosion effect I implemented. It's not perfect, but this is so much better than a single-billboard explosion effect I had before:
 
 <div style="position:relative;padding-top:56.25%;"><iframe src="https://iframe.mediadelivery.net/embed/399279/211f6468-6466-4490-97d5-fab1db52745d?autoplay=false&loop=false&muted=false&preload=false&responsive=true" loading="lazy" style="border:0;position:absolute;top:0;height:100%;width:100%;" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe></div>
