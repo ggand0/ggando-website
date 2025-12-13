@@ -11,7 +11,7 @@ categories = ["blog"]
 tags = ["rust"]
 +++
 
-<img src="/img/zola.webp" alt="img0" width="500"/>
+<img src="https://ggando.b-cdn.net/zola.webp" alt="img0" width="500"/>
 
 ## Context
 I initially created my previous website sometime with Nuxt.js in 2023. It served its purpose showing my bio and past projects, but I found it somewhat cumbersome for a static site like this. I also felt a mental barrier when it came to updating my website or writing new blog posts. In fact, I wrote my only blog post in February 2024 and never wrote anything since then. lol! As a result, I decided to migrate to a Rust-based static site generator called Zola, more compact framework that lets you focus on what I'd like to achieve with this website; documenting and sharing what I’ve learned on the internet.

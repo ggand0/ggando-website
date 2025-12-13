@@ -4,7 +4,7 @@ date = 2025-05-08
 draft = false
 
 [extra]
-thumb = "img/rust_appstore_16x9_moz"
+thumb = "https://ggando.b-cdn.net/rust_appstore_16x9_moz.jpg"
 
 [taxonomies]
 categories = ["blog"]

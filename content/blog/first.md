@@ -11,7 +11,7 @@ categories = ["blog"]
 tags = ["computer vision"]
 +++
 
-<img src="/img/mitvision.webp" alt="img0" width="500"/>
+<img src="https://ggando.b-cdn.net/mitvision_640px.jpg" alt="img0" width="500"/>
 
 Welcome to my blog! This is a placeholder post for debugging.
 

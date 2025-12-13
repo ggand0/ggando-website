@@ -4,7 +4,7 @@ date = 2025-01-30
 draft = false
 
 [extra]
-thumb = "img/map_datauni1_640.jpg"
+thumb = "https://ggando.b-cdn.net/map_datauni1_640.jpg"
 math = true
 
 [taxonomies]

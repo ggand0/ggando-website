@@ -46,7 +46,7 @@ anchors = "on"
 name = "Gota Gando"
 id = "ggando"
 bio = "Freelance machine learning engineer based in Tokyo. Deep Learning, Computer Vision, Rust"
-avatar = "img/profile_pic.jpeg"
+avatar = "img/profile_pic.jpg"
 
 display_id = true
 display_bio = true

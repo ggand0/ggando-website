@@ -17,9 +17,7 @@
       {% for proj in data.project %}
       <div class="proj border border-gray-200 dark:border-gray-700 rounded-lg shadow-md overflow-hidden">
         {% if proj.img %}
-        <!-- Project Image -->
-        <!--<img src="{{ proj.img }}" alt="{{ proj.name }}" class="w-full h-64 object-cover">-->
-        <img src="{{ config.base_url }}/{{ proj.img }}" alt="{{ proj.name }}" class="w-full h-64 object-cover">
+        <img src="{% if proj.img is starting_with('http') %}{{ proj.img }}{% else %}{{ config.base_url }}/{{ proj.img }}{% endif %}" alt="{{ proj.name }}" class="w-full h-64 object-cover">
         {% endif %}
 
         <!-- Project Content -->

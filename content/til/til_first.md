@@ -4,7 +4,7 @@ date = 2025-02-19
 draft = false
 
 [extra]
-thumb = "img/mitvision.webp"
+thumb = "https://ggando.b-cdn.net/mitvision_640px.jpg"
 
 [taxonomies]
 categories = ["til"]
