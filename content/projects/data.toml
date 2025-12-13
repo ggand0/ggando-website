@@ -1,4 +1,15 @@
 [[project]]
+name = "Bevy 3D Dodge - Reinforcement Learning Game"
+desc = "A 3D projectile dodging game built with Bevy Engine (Rust) integrated with Gymnasium for reinforcement learning research. The project explores continuous control RL algorithms (PPO and SAC) using Stable-Baselines3 to train agents that learn optimal dodging strategies. SAC achieved 2.4x better performance than PPO with half the training steps, with a 15% success rate of surviving indefinitely (1000+ steps) in challenging scenarios with randomized projectile patterns."
+tags = ["Bevy", "Rust", "Python", "Gymnasium", "Stable-Baselines3", "PyTorch", "SAC", "PPO"]
+img = "https://ggando.b-cdn.net/bevy_rl_game_v2_1280.jpg"
+img_position = "object-top"
+links = [
+  { name = "github", url = "https://github.com/ggand0/bevy-3d-dodge" },
+  { name = "", url = "" },
+]
+
+[[project]]
 name = "ViewSkater"
 desc = "A fast data viewer for viewing a large number of images, written in Rust. I always had the pain of having to manually plot image samples with matplotlib, or using slow built-in image viewers during explatory data analysis (EDA) for ML projects. This desktop app aims to alleviate this issue by dynamically caching images and providing UI with a responsive slider and a dual-pane view (which I can extend to N panes later)."
 tags = ["Rust", "Iced", "wgpu"]
