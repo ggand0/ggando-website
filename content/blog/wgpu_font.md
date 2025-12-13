@@ -2,10 +2,16 @@
 title = "How to load fonts in wgpu integration with iced"
 date = 2025-02-21
 draft = false
+path = "til/wgpu_font"
+
+[extra]
+thumb = "https://ggando.b-cdn.net/til_thumb_640.jpg"
+toc = false
+comment = false
 
 [taxonomies]
-categories = ["til"]
-tags = ["rust", "iced"]
+categories = ["blog"]
+tags = ["til", "rust", "iced"]
 +++
 
 I currently use the wgpu integration setup for my image viewer app and needed to load custom fonts (including an icon font) without using a Compositor. In iced 0.13.1, you usually set your fonts via `Settings` and pass it like `application(...).settings(your_settings)`. I found this part in `iced_winit::program:run_action()`, and it seems like it is the `Compositor` that loads fonts in the regular iced setup:
