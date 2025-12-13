@@ -8,7 +8,7 @@ thumb = "https://ggando.b-cdn.net/rocm0_1200px.jpg"
 
 [taxonomies]
 categories = ["blog"]
-tags = ["rocm"]
+tags = ["blog", "rocm"]
 +++
 
 <img src="https://ggando.b-cdn.net/7900xtx.jpg" alt="img0" width="500"/>

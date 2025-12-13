@@ -8,7 +8,7 @@ thumb = "https://ggando.b-cdn.net/mitvision_640px.jpg"
 
 [taxonomies]
 categories = ["blog"]
-tags = ["computer vision"]
+tags = ["blog", "computer vision"]
 +++
 
 <img src="/img/mitvision.webp" alt="img0" width="500"/>
