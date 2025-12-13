@@ -8,7 +8,7 @@ thumb = "img/rust_appstore_16x9_moz"
 
 [taxonomies]
 categories = ["blog"]
-tags = ["blog", "rust", "mac", "winit"]
+tags = ["rust", "mac", "winit"]
 +++
 
 <img src="https://ggando.b-cdn.net/rust_appstore_moz.jpg" alt="img0" width="500" style="display: block; margin: auto;"/>

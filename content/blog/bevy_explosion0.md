@@ -8,7 +8,7 @@ thumb = "https://ggando.b-cdn.net/bevy_explosion0_640.jpg"
 
 [taxonomies]
 categories = ["blog"]
-tags = ["blog", "rust", "bevy", "gamedev", "shader"]
+tags = ["rust", "bevy", "gamedev", "shader"]
 +++
 
 <img src="https://ggando.b-cdn.net/bevy_explosion0_1280.jpg" alt="img0" width="640" style="display: block; margin: auto;"/>

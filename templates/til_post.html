@@ -1,0 +1,36 @@
+{% extends "_base.html" %}
+
+{% block page %}til_post{% endblock page %}
+{% block lang %}{% if page.extra.lang %}{{ page.extra.lang }}{% else %}{{ page.lang }}{% endif %}{% endblock lang %}
+{% block title %}{{ page.title }}{% endblock title %}
+{% block desc %}
+<meta name="description" content="{{ page.description | default(value=page.summary, default="A Today I Learned post") }}">
+{% endblock desc %}
+
+{% block content %}
+{% include "_header.html" %}
+
+<div class="flex justify-center">
+  <main class="py-16 px-6 max-w-prose w-full">
+
+    <article class="prose dark:prose-invert font-normal">
+      <h1 class="text-3xl font-bold">{{ page.title }}</h1>
+      <div class="mt-4 mb-6 text-sm text-gray-600 dark:text-gray-400">
+        <span>Published on {{ page.date | date }}</span>
+        {% if page.updated and page.updated != page.date %}
+        <span> | Updated on {{ page.updated | date }}</span>
+        {% endif %}
+      </div>
+
+      <div class="mt-6">{{ page.content | safe }}</div>
+    </article>
+
+    <div class="mt-8">
+      <a href="{{ config.base_url }}/til" class="text-blue-600 dark:text-blue-400 hover:underline">← Back to TIL</a>
+    </div>
+
+  </main>
+</div>
+
+{% include "_footer.html" %}
+{% endblock content %}

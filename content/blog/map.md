@@ -9,7 +9,7 @@ math = true
 
 [taxonomies]
 categories = ["blog"]
-tags = ["blog", "image_retrieval", "evaluation"]
+tags = ["image_retrieval", "evaluation"]
 +++
 
 <img src="https://ggando.b-cdn.net/map_datauni1_1280.jpg" alt="img0" width="500" style="display: block; margin: auto;"/>

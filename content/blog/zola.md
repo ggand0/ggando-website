@@ -8,7 +8,7 @@ thumb = "https://ggando.b-cdn.net/zola_cropped1.jpg"
 
 [taxonomies]
 categories = ["blog"]
-tags = ["blog", "rust"]
+tags = ["rust"]
 +++
 
 <img src="/img/zola.webp" alt="img0" width="500"/>

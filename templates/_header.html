@@ -24,20 +24,8 @@
         </div>
       </nav>
       
-      <!-- Right section (filter buttons + RSS + theme toggle) -->
+      <!-- Right section (RSS + theme toggle) -->
       <div class="flex items-center gap-3">
-        {% if section.path == "/blog/" or (term and (term.name == "blog" or term.name == "til")) %}
-        {% set current_filter = "all" %}
-        {% if term and term.name == "blog" %}{% set current_filter = "blog" %}{% endif %}
-        {% if term and term.name == "til" %}{% set current_filter = "til" %}{% endif %}
-        <div class="flex items-center gap-1 text-sm">
-          <a href="{{ config.base_url }}/blog/" class="px-2 py-1 rounded transition-colors {% if current_filter == 'all' %}bg-teal-500 text-white dark:bg-gray-600 dark:text-gray-200{% else %}hover:bg-gray-200 dark:hover:bg-gray-700{% endif %}">all</a>
-          <span class="text-gray-400">|</span>
-          <a href="{{ config.base_url }}/tags/blog/" class="px-2 py-1 rounded transition-colors {% if current_filter == 'blog' %}bg-teal-500 text-white dark:bg-gray-600 dark:text-gray-200{% else %}hover:bg-gray-200 dark:hover:bg-gray-700{% endif %}">blog</a>
-          <span class="text-gray-400">|</span>
-          <a href="{{ config.base_url }}/tags/til/" class="px-2 py-1 rounded transition-colors {% if current_filter == 'til' %}bg-teal-500 text-white dark:bg-gray-600 dark:text-gray-200{% else %}hover:bg-gray-200 dark:hover:bg-gray-700{% endif %}">til</a>
-        </div>
-        {% endif %}
         {% if section.path and section.path != "/projects/" %}
         {% set rss_icon = load_data(path="static/icon/rss.svg") %}
         {% if section.generate_feed -%}
