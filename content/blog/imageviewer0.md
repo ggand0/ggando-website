@@ -8,7 +8,7 @@ thumb = "img/viewskater0_640.jpg"
 
 [taxonomies]
 categories = ["blog"]
-tags = ["rust", "wgpu", "iced"]
+tags = ["blog", "rust", "wgpu", "iced"]
 +++
 
 <img src="https://ggando.b-cdn.net/viewskater0_1280.jpg" alt="img0" width="500" style="display: block; margin: auto;"/>
