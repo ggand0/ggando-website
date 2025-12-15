@@ -1,5 +1,6 @@
 +++
 title = "Porting UE5 explosion to Bevy"
+slug = "bevy-explosion1"
 date = 2025-12-13
 draft = false
 

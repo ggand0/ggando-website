@@ -1,5 +1,6 @@
 +++
 title = "How to sell your Rust app on macOS app store"
+slug = "appstore"
 date = 2025-05-08
 draft = false
 

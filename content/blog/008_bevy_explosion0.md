@@ -1,5 +1,6 @@
 +++
 title = "Porting Unity Particle Effects to Bevy: Billboard Explosions"
+slug = "bevy-explosion0"
 date = 2025-12-12
 draft = false
 

@@ -1,5 +1,6 @@
 +++
 title = "I built an image viewer in Rust"
+slug = "imageviewer0"
 date = 2025-03-31
 draft = false
 

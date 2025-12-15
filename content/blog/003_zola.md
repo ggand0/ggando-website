@@ -1,5 +1,6 @@
 +++
 title = "Switching to Zola from Nuxt.js"
+slug = "zola"
 date = 2025-01-23
 draft = false
 
