@@ -1,5 +1,6 @@
 +++
 title = "Second TIL"
+slug = "til-second"
 date = 2025-02-20
 draft = false
 

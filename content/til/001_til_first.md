@@ -1,5 +1,6 @@
 +++
 title = "Trying the TIL section"
+slug = "til-first"
 date = 2025-02-19
 draft = false
 

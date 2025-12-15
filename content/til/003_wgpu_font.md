@@ -1,5 +1,6 @@
 +++
 title = "How to load fonts in wgpu integration with iced"
+slug = "wgpu-font"
 date = 2025-02-21
 draft = false
 
