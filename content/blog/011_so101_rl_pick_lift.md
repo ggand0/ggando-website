@@ -39,11 +39,16 @@ The first problem was that I mixed up `graspframe` and `gripperframe`. The MJCF 
 1. `gripperframe` at the fingertips (the TCP)
 2. `graspframe` further back between the fingers
 
+<img src="https://ggando.b-cdn.net/so101_011_spheres_closeup_1280.jpg" alt="Debug spheres closeup" width="640" style="display: block; margin: auto;"/>
+
+
 I was targeting the wrong one, wondering why the gripper kept overshooting the cube. It took time to realize this because I was letting Claude Opus 4.5 debug this at first, but it's sometimes bad at debugging visual issues like this because it only sees coordinates and grasp state in the console log. I highly recommend visualizing the grasp point and seeing it for yourself if you encounter similar issues.
 
 The second problem: even after fixing that, the gripper kept hitting the cube with the static finger before properly centering on it. The SO-101's gripper isn't symmetric: one finger is fixed, one moves. I needed to offset the target position to account for this asymmetry.
 
 The third problem: the motion worked but looked janky. I found this excellent [ECE4560 course material](https://maegantucker.com/ECE4560/assignment8-so101/) that had a clean 4-step pick sequence for the SO-101. I adapted their logic: move above block → descend → close gripper → lift. Now the motion was much cleaner. The cube still wobbled, though.
+
+<div style="position:relative;padding-top:56.25%;"><iframe src="https://iframe.mediadelivery.net/embed/399279/4582509c-e59e-4862-a67f-bd3b127028e6?autoplay=false&loop=false&muted=false&preload=false&responsive=true" loading="lazy" style="border:0;position:absolute;top:0;height:100%;width:100%;" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe></div>
 
 ### The Wobbling Cube
 The IK motion was fixed, but there was another big issue where the cube kept wobbling all the time. I was using the default material settings (friction, etc.) similar to rubber in real life, but my goal is to transfer this RL agent to my real SO-101. So I changed the cube material to the wood equivalent, but then it slipped away from the fingers when I tried to grasp it with the IK controller.
