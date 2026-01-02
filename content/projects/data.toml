@@ -1,7 +1,17 @@
 [[project]]
+name = "SO-101 Pick-and-Lift RL"
+desc = "Reinforcement learning training for robot arm manipulation in MuJoCo simulation. Developed a custom Gymnasium environment for the SO-101 arm to learn cube grasping and lifting using SAC with Stable-Baselines3. Achieved 100% success rate on state-based RL after iterating through 11 reward function versions, discovering emergent 'bump and grab' behaviors. Currently exploring pixel-based RL with DrQ-v2, reaching 10% grasp success from camera observations. The SO-101 arm is typically used with imitation learning (LeRobot/ACT), so this explores a pure RL approach instead."
+tags = ["Python", "RL", "MuJoCo", "Stable-Baselines3", "PyTorch", "SAC", "Gymnasium", "DrQ-v2"]
+img = "https://ggando.b-cdn.net/so101_lift_852.jpg"
+links = [
+  { name = "github", url = "https://github.com/ggand0/pick-101" },
+  { name = "", url = "" },
+]
+
+[[project]]
 name = "Bevy 3D Dodge - Reinforcement Learning Game"
 desc = "A 3D projectile dodging game built with Bevy Engine (Rust) integrated with Gymnasium for reinforcement learning research. The project explores continuous control RL algorithms (PPO and SAC) using Stable-Baselines3 to train agents that learn optimal dodging strategies. SAC achieved 2.4x better performance than PPO with half the training steps, with a 15% success rate of surviving indefinitely (1000+ steps) in challenging scenarios with randomized projectile patterns."
-tags = ["Bevy", "Rust", "Python", "Gymnasium", "Stable-Baselines3", "PyTorch", "SAC", "PPO"]
+tags = ["Bevy", "Rust", "Python", "RL", "Gymnasium", "Stable-Baselines3", "PyTorch", "SAC", "PPO"]
 img = "https://ggando.b-cdn.net/bevy_rl_game_v2_1280.jpg"
 img_position = "object-top"
 links = [
