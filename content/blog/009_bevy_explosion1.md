@@ -52,4 +52,8 @@ When it comes to VFX you'd still need to eyeball it to check by yourself as LLMs
 
 <div style="position:relative;padding-top:56.25%;"><iframe src="https://iframe.mediadelivery.net/embed/399279/879b6dca-4393-467f-a8dc-760851b034b3?autoplay=false&loop=false&muted=false&preload=false&responsive=true" loading="lazy" style="border:0;position:absolute;top:0;height:100%;width:100%;" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe></div>
 
+
+For more details on the GPU particle setup, see [my TIL post on Bevy GPU particles](@/til/007_bevy_gpu_particles.md).
+
+
 <br/>
