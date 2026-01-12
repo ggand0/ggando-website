@@ -26,7 +26,7 @@ I set up a MuJoCo simulation with the SO-101 arm, a 3cm cube, and a goal positio
 
 My first attempt with naive reward shaping resulted in the arm pushing the cube toward the goal after 500k steps. I did a bit of research on the best practices for letting the agent actually grasp the target and found the robosuite repo (link) that has staged rewards such as giving rewards for grasping the object.
 
-I adopted this and trained a few setups with reach reward + grasp bonus + lift bonus + place reward, and also implemented an IK-based controller instead of the default velocity-based one. However, it learned to keep holding the cube on the ground without actually lifting, even after 1M steps. I added debug logging for the cube's position and it turns out that it was pushing the cube down (z coordinate was going negative). I also visualized the scene from different angles, and realized that the gripper's fingers were clipping into the cube. I tried fixing this by adding collision boxes to the fingers, but the cube's size was too big and prevented the gripper from grasping anything, so I removed them at that point.
+I adopted this and trained a few setups with reach reward + grasp bonus + lift bonus + place reward, and also implemented an IK-based controller instead of the default velocity-based one. However, it learned to keep holding the cube on the ground without actually lifting, even after 1M steps. I added debug logging for the cube's position and it turns out that it was pushing the cube down (z coordinate was going negative). I also visualized the scene from different angles, and realized that the gripper's fingers were clipping into the cube. I tried fixing this by adding collision boxes to the fingers, but the cube's size was too big and prevented the gripper from grasping anything, so I paused this approach and removed them.
 
 I tried tweaking reward weights, adding penalties, and different reward structures, but nothing worked and I decided to try training a simpler lifting task, starting from the state where the arm already grasps the cube. In order to do this, I needed to implement a reset motion with inverse kinematics to grasp the cube at the beginning of each episode.
 
@@ -48,7 +48,7 @@ The second problem: even after fixing that, the gripper kept hitting the cube wi
 
 The third problem: the motion worked but looked janky. I found this excellent [ECE4560 course material](https://maegantucker.com/ECE4560/assignment8-so101/) that had a clean 4-step pick sequence for the SO-101. I adapted their logic: move above block → descend → close gripper → lift. Now the motion was much cleaner. The cube still wobbled, though.
 
-<div style="position:relative;padding-top:56.25%;"><iframe src="https://iframe.mediadelivery.net/embed/399279/4582509c-e59e-4862-a67f-bd3b127028e6?autoplay=false&loop=false&muted=false&preload=false&responsive=true" loading="lazy" style="border:0;position:absolute;top:0;height:100%;width:100%;" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe></div>
+<div style="position:relative;padding-top:56.25%;"><iframe src="https://iframe.mediadelivery.net/embed/399279/d6faa860-36c3-4759-b5a2-9c3a843435da?autoplay=false&loop=false&muted=false&preload=false&responsive=true" loading="lazy" style="border:0;position:absolute;top:0;height:100%;width:100%;" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe></div>
 
 ### The Wobbling Cube
 The IK motion was fixed, but there was another big issue where the cube kept wobbling all the time. I was using the default material settings (friction, etc.) similar to rubber in real life, but my goal is to transfer this RL agent to my real SO-101. So I changed the cube material to the wood equivalent, but then it slipped away from the fingers when I tried to grasp it with the IK controller.
@@ -73,7 +73,12 @@ I added two 2.5mm box geoms (`static_finger_pad` and `moving_finger_pad`) positi
       pos="-0.01136 -0.076 0.019" rgba="0.5 0.5 1 0.8" friction="1 0.05 0.001"/>
 ```
 
+
+<img src="https://ggando.b-cdn.net/so101_finger_pads_side_v2_640_annotated.jpg" alt="img1" width="640" style="display: block; margin: auto;"/>
+
 After this fix, the wobbling stopped! The cube now gripped cleanly and held steady during lifting.
+
+<div style="position:relative;padding-top:56.25%;"><iframe src="https://iframe.mediadelivery.net/embed/399279/9786268f-ce6a-4356-a559-1922ca5ef2b9?autoplay=false&loop=false&muted=false&preload=false&responsive=true" loading="lazy" style="border:0;position:absolute;top:0;height:100%;width:100%;" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe></div>
 
 ### Training the Lift Agent
 With the physics working, I returned to RL training. First, I trained an agent that just lifts the cube, starting from the state where the cube was already grasped and lifted at z=0.02.
@@ -113,4 +118,4 @@ One interesting emergent behavior: the agent learned to nudge the cube slightly 
 
 Next up: pixel-based RL with camera observations, transitioning from Stable-Baselines3 to vision-RL frameworks like DrQ-v2. The ultimate goal is a pick-and-place agent that can actually clean up a desk.
 
-The code is available at [github.com/ggand0/explore-mujoco](https://github.com/ggand0/explore-mujoco). If you're working on SO-101 RL in MuJoCo, feel free to reach out. There's not much published work on this specific setup.
+The code is available at [https://github.com/ggand0/pick-101](https://github.com/ggand0/pick-101). If you're working on SO-101 RL in MuJoCo, feel free to reach out. There's not much published work on this specific setup.
