@@ -55,6 +55,10 @@ The agent got around 326 ± 15 rewards after 2M steps, and when I checked the vi
 2. Supports cube against static finger at the arm base
 3. Never attempts a proper two-finger grasp
 
+<div style="position:relative;padding-top:56.25%;"><iframe src="https://iframe.mediadelivery.net/embed/399279/e0adfc76-7985-48ca-8b02-eb4094f5d603?autoplay=false&loop=false&muted=false&preload=false&responsive=true" loading="lazy" style="border:0;position:absolute;top:0;height:100%;width:100%;" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe></div>
+<p style="text-align:center; color:gray; font-size:0.9em;">The cube spinning on its corner vertex lol</p>
+
+
 But at this point, I realized that the wrist camera view was mounted backwards in simulation, and decided to correct this first:
 ```xml
 <!-- v1 camera: WRONG - Camera on back side, facing arm base! -->
