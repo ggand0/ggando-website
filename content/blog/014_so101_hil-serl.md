@@ -244,8 +244,6 @@ Here's the TL;DR of critical points I think are very important to train HIL-SERL
 10. **Same reset pose:** in my case resetting the arm to z=0.07 rather than something else
 11. **Small position randomization:** ±1cm works, larger randomization may cause failures and instability
 
-If you're interested, the code is here: [https://github.com/ggand0/hil-serl-so101](https://github.com/ggand0/hil-serl-so101)
-
 ### Lessons Learned
 #### The Real Cost
 **Runtime errors:** I fixed dozens of bugs across the LeRobot codebase before training even worked. Missing imports, path checks, state dimensions, keyboard handling, intervention logic, reset positioning. This took weeks.
@@ -261,3 +259,5 @@ The 70% success rate is pretty good where the policy discovered its own grasping
 1. VLAs: Try π₀ or OpenVLA with minimal fine-tuning. These are pretrained on internet-scale robot data and might work faster.
 2. RGBD: I just bought a realsense D405 depth camera. Adding depth might reduce the visual domain gap enough for better sim-to-real transfer.
 3. Full pick-and-place: The current 70% is grasp-only. Extending to lift-and-place is the actual goal.
+
+Thanks for reading! Let me know if anyone managed to make HIL-SERL work with SO-101. If you're interested, the code is here: [ggand0/hil-serl-so101](https://github.com/ggand0/hil-serl-so101).
