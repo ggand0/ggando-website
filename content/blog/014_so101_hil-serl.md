@@ -97,6 +97,9 @@ I recorded episodes with terminate_on_success: false to capture both successful 
 Since I didn't have many frames, I split the data into train/val with 0.15 val ratio rather than train/val/test. Note that I used frame-based split not episode-based. After training it for 43 epochs (2,666 steps), it achieved the best val accuracy of 97.3%. 
 I also implemented an inference script using the live camera feed and confirmed that the trained model works fine.
 
+Here's the inference demo using the wrist cam live feed:
+<div style="position:relative;padding-top:56.25%;"><iframe src="https://iframe.mediadelivery.net/embed/399279/22860539-c098-46de-b559-259d5b8c87c5?autoplay=false&loop=false&muted=false&preload=false&responsive=true" loading="lazy" style="border:0;position:absolute;top:0;height:100%;width:100%;" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe></div>
+
 ### Training HIL-SERL
 #### Architecture
 HIL-SERL uses an actor-learner architecture:
