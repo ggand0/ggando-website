@@ -40,16 +40,16 @@ Optional but Useful
 ### Code Setup
 The current LeRobot main branch doesn't fully support SO-101 for HIL-SERL. I needed to fork and use it from my repo:
 LeRobot fork: My fork with SO-101 HIL-SERL fixes
-- GitHub: gtgando/lerobot (branch: hilserl-so101)
+- GitHub: [ggand0/lerobot](https://github.com/ggand0/lerobot) (branch: hilserl-so101)
 - Key changes:
-	- SO101FollowerEndEffector class with MuJoCo-based damped least-squares IK (replaced URDF+placo path that had a state caching bug causing arm drift)
-	- Rewrote gym environment layer from upstream's processor/pipeline architecture to gym wrappers ( FullProprioceptionWrapper, ImageCropResizeWrapper, leader-follower teleop wrappers)
-	- Full proprioception state expansion (6-dim joints to 18-dim: joints + velocities + EE pose via MuJoCo FK)
-	- Offline buffer conversion with MuJoCo FK for joint-to-EE action conversion
-	- IK-based reset positioning with configurable locked joints
-	- Human intervention with leader arm joint mirroring
-	- DrQ-v2 policy implementation for sim-to-real transfer
-	- Hardware robustness: camera auto-reconnect, motor bus retry logic, torque disable on exit
+	- **MuJoCo-based IK:** SO101FollowerEndEffector class with damped least-squares IK (replaced URDF+placo path that had a state caching bug causing arm drift)
+	- **Gym environment rewrite:** Rewrote upstream's processor/pipeline architecture to gym wrappers (FullProprioceptionWrapper, ImageCropResizeWrapper, leader-follower teleop wrappers)
+	- **Full proprioception:** State expansion from 6-dim joints to 18-dim (joints + velocities + EE pose via MuJoCo FK)
+	- **Offline buffer conversion:** MuJoCo FK for joint-to-EE action conversion
+	- **IK-based reset:** Positioning with configurable locked joints
+	- **Human intervention:** Leader arm joint mirroring
+	- **DrQ-v2 policy:** Implementation for sim-to-real transfer
+	- **Hardware robustness:** Camera auto-reconnect, motor bus retry logic, torque disable on exit
 
 The upstream HIL-SERL code uses URDF-based kinematics via placo for end-effector control. The reason why I used mujoco as a FK solver here was that there was a state caching bug where the IK code cached its own computed targets as the 'current' position instead of re-reading where the motors actually moved to and the internal state drifted further from reality each step. I was working on sim2real RL inference at that time and the inference script was already working, so I rewrote the robot class to use MuJoCo as a pure kinematics solver instead in a similar way. This fix worked but definitely not clean, and I plan to fix it with the original approach next time I have a chance to work on HIL-SERL.
 
@@ -169,6 +169,10 @@ It's exhausting. The paper makes this sound straightforward, but you're standing
 I did ~3 hours of active babysitting across multiple sessions. The paper says 1–2.5 hours for Franka tasks, but those are ~$40k industrial arms with Berkeley's robotics lab behind them. For a first-time SO-101 setup with all the debugging, expect longer.
 
 ### Results
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Sim2real with RGB didn&#39;t work, so I trained a grasp-only model from scratch using HIL-SERL on the real SO-101. It took ~750 episodes and 3 hours, but wow manual training is so exhausting <a href="https://t.co/rl3KJwDGSy">pic.twitter.com/rl3KJwDGSy</a></p>&mdash; Gota (@gtgando) <a href="https://twitter.com/gtgando/status/2019696686084571535?ref_src=twsrc%5Etfw">February 6, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
 #### Training Stats
 
 <div style="overflow-x:auto;"><table style="table-layout:fixed;width:100%;">
@@ -194,16 +198,33 @@ The intervention rate dropped significantly after ~400 episodes. By the end, the
 </tbody></table></div>
 The policy is stronger in the center where training data concentrated, weaker at workspace edges. The ±1cm randomization during training limited generalization to boundary positions.
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Sim2real with RGB didn&#39;t work, so I trained a grasp-only model from scratch using HIL-SERL on the real SO-101. It took ~750 episodes and 3 hours, but wow manual training is so exhausting <a href="https://t.co/rl3KJwDGSy">pic.twitter.com/rl3KJwDGSy</a></p>&mdash; Gota (@gtgando) <a href="https://twitter.com/gtgando/status/2019696686084571535?ref_src=twsrc%5Etfw">February 6, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+#### Training Analysis
+
+<img src="https://ggando.b-cdn.net/014_training_curves_1280.png" alt="HIL-SERL training curves" width="640" style="display: block; margin: auto;"/>
+<p style="text-align:center; color:gray; font-size:0.9em;">Episode reward (top) and intervention rate (bottom) over 757 episodes. Dashed lines indicate session breaks.</p>
+
+757 total episodes across 2 sessions (~3 hours of real-world training).
+
+| Phase | Episodes | Avg Reward | Success% | Avg Intervention% | Max Reward |
+|-------|----------|-----------|----------|-------------------|------------|
+| Early (1-100) | 100 | 17.6 | 32.0% | 20.8% | 226.2 |
+| Mid (101-300) | 200 | 16.3 | 27.0% | 17.8% | 186.3 |
+| Late (301-500) | 200 | 59.1 | 69.0% | 22.0% | 219.6 |
+| Final (501+) | 257 | 95.5 | 79.4% | 9.2% | 309.0 |
+
+Overall episode rewards increase monotonically. Episode 300 seems to be a breakthrough point where the policy started behaving better. The intervention rate rose around this point because the policy was overfitting to a specific motion that could only grasp cubes on the right side of the camera view, so I started placing cubes more toward the left side and positions where it struggled. Toward the final phase of training (ep 500+), MA20 stabilized around 95-107, indicating convergence.
+
 
 #### What Worked vs What Didn't
-What worked:
+**What worked:**
 - Consistent desk lamp lighting
 - Reset height matching demonstration data (z=0.07)
 - Small position randomization (±1cm)
 - High UTD ratio (20)
 - Patient early intervention
-What didn't:
+
+**What didn't:**
 - Training without consistent lighting (classifier failed)
 - Wrong reset height (z=0.03 vs demo z=0.07)
 - Large randomization (policy couldn't generalize)
