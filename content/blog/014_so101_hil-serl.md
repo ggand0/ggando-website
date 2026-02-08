@@ -9,7 +9,7 @@ thumb = "https://ggando.b-cdn.net/014_thumb_640.jpg"
 
 [taxonomies]
 categories = ["blog"]
-tags = ["reinforcement_learning", "robotics", "so101", "hil-serl"]
+tags = ["rl", "robotics", "so101", "hil-serl"]
 +++
 
 ### Background: Why HIL-SERL?

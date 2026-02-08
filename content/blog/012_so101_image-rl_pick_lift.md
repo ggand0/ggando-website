@@ -7,7 +7,7 @@ draft = false
 thumb = "https://ggando.b-cdn.net/so101_image-rl_lift_640.jpg"
 [taxonomies]
 categories = ["blog"]
-tags = ["reinforcement_learning", "robotics", "mujoco", "so101"]
+tags = ["rl", "robotics", "mujoco", "so101"]
 +++
 
 <img src="https://ggando.b-cdn.net/so101_image-rl_lift_1280.jpg" alt="img0" width="640" style="display: block; margin: auto;"/>
