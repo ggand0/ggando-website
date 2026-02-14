@@ -29,7 +29,7 @@ Camera
 - **InnoMaker 1080P USB camera x 2:** I recommend buying two of them because my first one died in January after using it for about six months. During RL training, the arm sometimes impacts the table with enough force that it damages the camera over time. My second one arrived tilted to one side (manufacturing defect), so I needed a third one. Budget for camera mortality. Alternatively, just buy a realsense D405 which should be more durable.
 - **3D-printed camera mount:** The camera needs to mount to the gripper. You'll need to print this yourself or use a service like JLC3DP. The SO-ARM100 repo has mount STLs.
 Lighting
-- **Desk lamp:** This turned out to be critical. RGB-based RL is extremely sensitive to lighting conditions. Without a dominant, consistent light source, the reward classifier gets confused by shadows and ambient light changes throughout the day. If your room lighting isn't consistent, buy a desk lamp and point it at the workspace. I used a Yamada Z-LIGHT Z-10R since it was cost-effective in Japan ($100), but I heard from Grok that the BenQ e-reading LED desk lamp on amazon.com is pretty good (~$200)
+- **Desk lamp:** This turned out to be critical. RGB-based RL is extremely sensitive to lighting conditions. Without a dominant, consistent light source, the reward classifier gets confused by shadows and ambient light changes throughout the day. If your room lighting isn't consistent, buy a desk lamp and point it at the workspace. I used a [Yamada Z-LIGHT Z-10R](https://www.amazon.co.jp/dp/B0FBRKQHPX) since it was cost-effective in Japan ($100), but I heard from Grok that the BenQ e-reading LED desk lamp on amazon.com is pretty good (~$200)
 
 Optional but Useful
 - **External USB camera + clamp stand:** For recording training footage from a third-person view. Useful for debugging and making demo videos.
@@ -167,6 +167,8 @@ Direct quote from the paper:
 > "we should avoid persistently providing long sparse interventions that lead to task successes. Such an intervention strategy will cause the overestimation of the value function, particularly in the early stages of the training process; which can result in unstable training dynamics."
 At first, I was making a critical mistake of intervening all the way to a success, but doing this every time seems to weaken the policy's ability to learn autonomous success and recovery. The Q-function would learn that "human intervention = guaranteed success" and overestimates values for states where the human typically takes over. This destabilizes learning. Instead, we need to intervene frequently with short corrections. Many small nudges > few complete takeovers. For example you could bring the arm near cube when it started drifting away from it.
 
+At first, I was making a critical mistake of intervening all the way to a success. For example, when the policy struggled to grasp the cube on the left side of the camera view, I would take over with the leader arm and complete the entire grasp for it, thinking this would teach it. But the opposite happened: it never learned to grasp at those positions on its own. You need to let the policy make mistakes and learn from them by limiting intervention to short guidance and corrections, not full task completions.
+
 #### The Training Experience
 It's exhausting. The paper makes this sound straightforward, but you're standing at the robot for hours, watching it attempt grasps, intervening when it fails, repositioning the cube between episodes. You can't walk away because the policy might do something that needs correction.
 I did ~3 hours of active babysitting across multiple sessions. The paper says 1–2.5 hours for Franka tasks, but those are ~$40k industrial arms with Berkeley's robotics lab behind them. For a first-time SO-101 setup with all the debugging, expect longer.
@@ -209,43 +211,31 @@ The policy is stronger in the center where training data concentrated, weaker at
 
 757 total episodes across 2 sessions (~3 hours of real-world training).
 
-| Phase | Episodes | Avg Reward | Success% | Avg Intervention% | Max Reward |
-|-------|----------|-----------|----------|-------------------|------------|
-| Early (1-100) | 100 | 17.6 | 32.0% | 20.8% | 226.2 |
-| Mid (101-300) | 200 | 16.3 | 27.0% | 17.8% | 186.3 |
-| Late (301-500) | 200 | 59.1 | 69.0% | 22.0% | 219.6 |
-| Final (501+) | 257 | 95.5 | 79.4% | 9.2% | 309.0 |
+<div style="overflow-x:auto;"><table style="table-layout:fixed;width:100%;">
+<thead><tr><th>Phase</th><th>Avg Reward</th><th>Success%</th><th>Intervention%</th></tr></thead>
+<tbody>
+<tr><td>Early (1-100)</td><td>17.6</td><td>32.0%</td><td>20.8%</td></tr>
+<tr><td>Mid (101-300)</td><td>16.3</td><td>27.0%</td><td>17.8%</td></tr>
+<tr><td>Late (301-500)</td><td>59.1</td><td>69.0%</td><td>22.0%</td></tr>
+<tr><td>Final (501+)</td><td>95.5</td><td>79.4%</td><td>9.2%</td></tr>
+</tbody></table></div>
 
 Overall episode rewards increase monotonically. Episode 300 seems to be a breakthrough point where the policy started behaving better. The intervention rate rose around this point because the policy was overfitting to a specific motion that could only grasp cubes on the right side of the camera view, so I started placing cubes more toward the left side and positions where it struggled. Toward the final phase of training (ep 500+), MA20 stabilized around 95-107, indicating convergence.
 
 
-#### What Worked vs What Didn't
-**What worked:**
-- Consistent desk lamp lighting
-- Reset height matching demonstration data (z=0.07)
-- Small position randomization (±1cm)
-- High UTD ratio (20)
-- Patient early intervention
-
-**What didn't:**
-- Training without consistent lighting (classifier failed)
-- Wrong reset height (z=0.03 vs demo z=0.07)
-- Large randomization (policy couldn't generalize)
-- Rushing through early training (not enough intervention data)
-
 ### Things to make HIL-SERL work
 Here's the TL;DR of critical points I think are very important to train HIL-SERL successfully:
-1. **Lighting:** I believe this is very important for RGB-based RL. Desk lamp for consistent RGB observations
-2. **Reward classifier extra samples:** positive/negative for edge cases that occur during training. The agent might reward-hack without covering these.
-3. **Human intervention techniques:** Short corrections, not long takeovers; let policy explore early
-4. **Hyperparams different from paper:** Especially exploration-related ones like temperature_init
-5. **USB reconnection logic:** USB keeps dying and interrupts training without this. Handling servo disconnects mid-training
-6. **750 episodes not 500:** keep training if improving, don't stop at arbitrary cutoff. Ideally finish training within the same time segment like morning, afternoon, night etc.
-7. **Accurate calibration:** Actually positioning joints in the middle of their range during calibration startup
-8. **Classifier preprocessing:** Use 128x128px as in the paper, consistent logic; in my case I center-cropped 480p frame to 480x480px square image then resize to 128x128px while maintaining the aspect ratio
-9. **Classifier: frame-based train/val split:** Not episode-based
-10. **Same reset pose:** in my case resetting the arm to z=0.07 rather than something else
-11. **Small position randomization:** ±1cm works, larger randomization may cause failures and instability
+1. **Lighting:** Consistent lighting is critical for RGB-based RL. Use a desk lamp as a dominant light source. Without one, the reward classifier gets confused by shadows and ambient light changes.
+2. **Reward classifier extra samples:** Collect positive/negative samples for edge cases that occur during training. The agent might reward-hack without covering these.
+3. **Human intervention techniques:** Short corrections, not long takeovers; let policy explore early.
+4. **Hyperparams different from paper:** Especially exploration-related ones like temperature_init, utd_ratio, and target_entropy. Use the same values as the original paper.
+5. **USB reconnection logic:** USB keeps dying and interrupts training without this. Handling servo disconnects mid-training.
+6. **750 episodes not 500:** Keep training if improving, don't stop at arbitrary cutoff. Ideally finish training within the same time segment like morning, afternoon, night etc.
+7. **Accurate calibration:** Actually positioning joints in the middle of their range during calibration startup.
+8. **Classifier preprocessing:** Use 128x128px as in the paper, consistent logic; in my case I center-cropped 480p frame to 480x480px square image then resize to 128x128px while maintaining the aspect ratio.
+9. **Classifier: frame-based train/val split:** Not episode-based.
+10. **Reset pose matching demos:** Reset height must match demonstration data. I wasted hours debugging because my reset height was z=0.03 but my demos were recorded at z=0.07. The policy was starting from states it had never seen.
+11. **Small position randomization:** ±1cm works. Larger randomization caused failures and the policy couldn't generalize.
 
 ### Lessons Learned
 #### The Real Cost
