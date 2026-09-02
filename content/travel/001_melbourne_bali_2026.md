@@ -64,7 +64,25 @@ Overall the climate is pretty chill and people are friendly and great, but I did
 
 After Australia, I visited Bali for another week, basing myself in Canggu/Seminyak, to 1. do something summery since I'm getting hella old and 2. check out the digital nomad scene. I had such low expectations of Bali because people online kept trashing it, like how overcrowded, dirty, and expensive it has gotten compared to the past. But I loved Bali!
 
-There are some spots that are dirty, and there were indeed lots of tourists in the peak dry season. But I enjoyed it. Beaches are absolutely beautiful and worth visiting just to view them, even if you don't swim or surf. I couldn't explore everything, but there are lots of temples and world heritage sites you wanna visit, like the Rice Terraces and Uluwatu Temple. I was planning to just work on coding projects at nomad cafes, but ended up doing full tourist stuff. Also, things are very cheap even for those who carry yen. For example, even lunch/dinner at a high-grade restaurant only costs like less than 3k yen, which is like half of what it'd be in Tokyo. Basically I felt like an American visiting Japan in terms of cost of living.
+<img class="photo" src="https://ggando.b-cdn.net/travel/bali2026/bali2026_canggu_sunset_1280.jpg" alt="Sunset reflecting on wet black sand, Canggu beach"/>
+
+There are some spots that are dirty, and there were indeed lots of tourists in the peak dry season. But I enjoyed it. Beaches are absolutely beautiful and worth visiting just to view them, even if you don't swim or surf.
+
+<div class="photo-row">
+  <img src="https://ggando.b-cdn.net/travel/bali2026/bali2026_beach_palms_mirror_1280.jpg" alt="Palms and clouds mirrored on the beach at low tide"/>
+  <img src="https://ggando.b-cdn.net/travel/bali2026/bali2026_beach_clouds_mirror_1280.jpg" alt="Golden-hour clouds mirrored on the sand"/>
+</div>
+
+I couldn't explore everything, but there are lots of temples and world heritage sites you wanna visit, like Tanah Lot, the Rice Terraces and Uluwatu Temple. I was planning to just work on coding projects at nomad cafes, but ended up doing full tourist stuff.
+
+<div class="photo-row">
+  <img class="landscape" src="https://ggando.b-cdn.net/travel/bali2026/bali2026_uluwatu_cliffs_1280.jpg" alt="Uluwatu cliffs framed by bougainvillea"/>
+  <img class="portrait" src="https://ggando.b-cdn.net/travel/bali2026/bali2026_kecak_dance_1280.jpg" alt="Kecak fire dance at Uluwatu at night"/>
+</div>
+
+I went to Uluwatu just for the temple this time. Monkeys were literally stealing iPhones and glasses from tourists right in front of me, and the Kecak fire dance was really good, honestly better than the cliff views. For Ubud I did the classic route: the Tegallalang Rice Terraces → Tirta Empul → Serayu pottery → luwak coffee tasting → the Campuhan Ridge Walk. And Tanah Lot was definitely the best spot to view waves, with the temple sitting on a rock just offshore and the surf crashing around it. However touristy it looks, it's worth going at least once.
+
+Also, things are very cheap even for those who carry yen. For example, even lunch/dinner at a high-grade restaurant only costs like less than 3k yen, which is like half of what it'd be in Tokyo. Basically I felt like an American visiting Japan in terms of cost of living.
 
 #### Getting around
 
@@ -72,7 +90,14 @@ For transportation, if you have a license for scooters it's definitely better to
 
 #### The nomad scene
 
-As for the nomad scene, I did enjoy the co-working cafes designed for laptops. It wasn't overcrowded and I could always find a spot. Working on your projects while sipping tropical drinks has its own charm. But I felt like it's kinda hard to connect with other fellow nomads / remote workers, because everyone kinda works on their laptops quietly. People were polite though, like you could ask people to watch your stuff for example. You probably wanna be proactive if you want to socialize with nomads. I'd attend events hosted by coworking spaces like Tribal. I didn't, since I wanted to focus on traveling around Bali. There was also a startup event on Eventbrite I wanted to attend, but it was sold out when I tried to buy a ticket! For the record, here are the ones I tried out:
+As for the nomad scene, I did enjoy the co-working cafes designed for laptops. It wasn't overcrowded and I could always find a spot. Working on your projects while sipping tropical drinks has its own charm.
+
+<div class="photo-row">
+  <img src="https://ggando.b-cdn.net/travel/bali2026/bali2026_zin_cafe_1280.jpg" alt="ZIN Cafe in Canggu, plenty of seating for laptops"/>
+  <img src="https://ggando.b-cdn.net/travel/bali2026/bali2026_noah_cafe_code_v2_1280.jpg" alt="Code on screen next to an iced drink at NOAH Cafe"/>
+</div>
+
+But I felt like it's kinda hard to connect with other fellow nomads / remote workers, because everyone kinda works on their laptops quietly. People were polite though, like you could ask people to watch your stuff for example. You probably wanna be proactive if you want to socialize with nomads. I'd attend events hosted by coworking spaces like Tribal. I didn't, since I wanted to focus on traveling around Bali. There was also a startup event on Eventbrite I wanted to attend, but it was sold out when I tried to buy a ticket! For the record, here are the ones I tried out:
 
 - [IZE](https://maps.app.goo.gl/AwjCnHBR18RjyquD8): very quiet and suitable for actual working
 - [Tribal](https://maps.app.goo.gl/KKDmjeiMpwcU3t3b9): the vibe is great but it's pretty busy. I suppose you'd need to come in the early morning to secure a spot
