@@ -62,7 +62,7 @@ Overall the climate is pretty chill and people are friendly and great, but I did
 
 ### Bali
 
-After Australia, I visited Bali for another week, basing myself in Canggu/Seminyak, to 1. do something summery since I'm getting hella old and 2. check out the digital nomad scene. I had such low expectations of Bali because people online kept trashing it, like how overcrowded, dirty, and expensive it has gotten compared to the past. But I loved Bali!
+After Australia, I visited Bali for another week, basing myself in Canggu, to 1. do something summery since I'm getting hella old and 2. check out the digital nomad scene. I had such low expectations of Bali because people online kept trashing it, like how overcrowded, dirty, and expensive it has gotten compared to the past. But I loved Bali!
 
 <img class="photo" src="https://ggando.b-cdn.net/travel/bali2026/bali2026_canggu_sunset_1280.jpg" alt="Sunset reflecting on wet black sand, Canggu beach"/>
 
@@ -86,7 +86,7 @@ Also, things are very cheap even for those who carry yen. For example, even lunc
 
 #### Getting around
 
-For transportation, if you have a license for scooters it's definitely better to rent a scooter, though the traffic is pretty chaotic and you'd need decent skill to maneuver without hitting something. I technically have a Japanese driver's license that comes with a small scooter license up to 75cc, but Bali scooters are usually 125cc. This means it's technically illegal for me to drive them and travel insurance won't cover it, so I opted for just using the Gojek / Grab apps. I heard some people don't care and drive them anyway without the license, which I'm not really willing to risk. I ended up getting along with one of the car drivers I met on Gojek, and used his private service throughout the rest of my stay. Gojek takes a 20% margin, so if you pay the driver in cash plus some tips, it'd be a great deal for the driver. (For reference, a full-day trip cost me around [price] IDR.) I'd recommend doing the same, for example if you stay in Canggu/Seminyak and plan to do long day trips to places like Ubud and Uluwatu.
+For transportation, if you have a license for scooters it's definitely better to rent a scooter, though the traffic is pretty chaotic and you'd need decent skill to maneuver without hitting something. I technically have a Japanese driver's license that comes with a small scooter license up to 75cc, but Bali scooters are usually 125cc. This means it's technically illegal for me to drive them and travel insurance won't cover it, so I opted for just using the Gojek / Grab apps. I heard some people don't care and drive them anyway without the license, which I'm not really willing to risk. I ended up getting along with one of the car drivers I met on Gojek, and used his private service throughout the rest of my stay. Gojek takes a 20% margin, so if you pay the driver in cash plus some tips, it'd be a great deal for the driver. For reference, Canggu to Uluwatu Temple was around 400k IDR one way, and Canggu to the Tegallalang rice terraces was about 332.5k on Gojek, so Ubud day trips end up a bit more. After exchanging WhatsApp, we just used the Gojek app to check the fare for each ride and I paid him that in cash plus some tips. I'd recommend doing the same, for example if you stay in Canggu/Seminyak and plan to do long day trips to places like Ubud and Uluwatu.
 
 #### The nomad scene
 
