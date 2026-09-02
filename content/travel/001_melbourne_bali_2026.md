@@ -106,7 +106,7 @@ But I felt like it's kinda hard to connect with other fellow nomads / remote wor
 
 #### People
 
-My impression from my limited stay was that tourists (also nomads?) are a bit indifferent to each other and just do their own thing alone or with their group, though most of the ones I encountered were polite. On the other hand, I had a much easier time connecting with local people, since some people kinda speak Japanese and seem to like Japan? Classic, but people seem to like anime and manga apparently (soft power is real). I think Balinese are friendly and they tend to speak good English, sometimes even Japanese. Communicating in English, Japanese, and my occasional bad Indonesian was pretty fun!
+My impression from my limited stay was that tourists (also nomads?) are a bit indifferent to each other and just do their own thing alone or with their group, though most of the ones I encountered were polite. On the other hand, I had a much easier time connecting with local people, since people tend to be warm and friendly. Also, some people kinda speak Japanese and seem to like Japan too. Classic, but people seem to like anime and manga apparently (soft power is real). I think Balinese are friendly and they tend to speak good English, sometimes even Japanese. Communicating in English, Japanese, and my occasional bad Indonesian was pretty fun!
 
 ### Next time
 
