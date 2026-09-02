@@ -68,6 +68,7 @@ links = [
     { name = "Twitter", icon = "twitter", url = "https://twitter.com/gtgando" },
     { name = "LinkedIn", icon = "linkedin", url = "https://www.linkedin.com/in/gotagando/" },
     { name = "Email", icon = "email", url = "mailto:hi@ggando.me" },
+    { name = "RSS", icon = "rss", url = "/feed.xml" },
 ]
 
 force_theme = false                   # false | "light" | "dark"
