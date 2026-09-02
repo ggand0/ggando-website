@@ -9,4 +9,5 @@ generate_feeds = true
 
 [extra]
 lang = 'en'
+comment = false
 +++

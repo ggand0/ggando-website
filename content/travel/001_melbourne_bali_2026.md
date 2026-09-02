@@ -14,7 +14,7 @@ tags = ["travel", "melbourne", "bali", "remote-work"]
 
 I tend to travel in August since Tokyo is very hot and humid during the summer, and I'm not productive if I stay here anyway. I usually procrastinate the planning until the last moment and feel annoyed about starting the travel, but for someone like me who works on a computer all day long, it always feels worth it after I've done it.
 
-Last year, I first visited SF, where I learned that robotics is getting hot, and then vacationed in Vancouver along with Seattle. I considered traveling to the east coast this summer, but the US is too expensive for yen earners these days. So I decided to travel south this year.
+Last year, I first visited SF, where I learned that robotics is getting hot, and then vacationed in Vancouver and Seattle. I considered traveling to the east coast this summer, but the US is too expensive for yen earners these days. So I decided to travel south this year.
 
 ### Melbourne
 
@@ -35,9 +35,9 @@ For the library, I recommend the City Library since you can probably find a spot
 
 #### Food
 
-As for restaurants and stuff, you can just research with Claude, Grok, etc., plus there's a shit ton of travel content on the web obviously, but I'd recommend these two Italian restaurants I really liked:
+As for restaurants and stuff, you can just research with Claude, Grok, etc., plus there's a shit ton of travel content on the web obviously, but I'd recommend these two restaurants I really liked:
 
-- [Vespa Rossa Degraves](https://maps.app.goo.gl/LPGegbzPx6X7Uk8V6): Gnocchi Beef Ragu (risotto)
+- [Vespa Rossa Degraves](https://maps.app.goo.gl/LPGegbzPx6X7Uk8V6): Beef Ragu Risotto
 - [Claypots Barbarossa](https://maps.app.goo.gl/1ZU678K4rJD3zat97): Salmon Belly
 
 #### Architecture and NGV
@@ -86,7 +86,7 @@ Also, things are very cheap even for those who carry yen. For example, even lunc
 
 #### Getting around
 
-For transportation, if you have a license for scooters it's definitely better to rent a scooter, though the traffic is pretty chaotic and you'd need decent skill to maneuver without hitting something. I technically have a Japanese driver's license that comes with a small scooter license up to 75cc, but Bali scooters are usually 125cc. This means it's technically illegal for me to drive them and travel insurance won't cover it, so I opted for just using the Gojek / Grab apps. I heard some people don't care and drive them anyway without the license, which I'm not really willing to risk. I ended up getting along with one of the car drivers I met on Gojek, and used his private service throughout the rest of my stay. Gojek takes a 20% margin, so if you pay the driver in cash plus some tips, it'd be a great deal for the driver. For reference, Canggu to Uluwatu Temple was around 400k IDR one way, and Canggu to the Tegallalang rice terraces was about 332.5k on Gojek, so Ubud day trips end up a bit more. After exchanging WhatsApp, we just used the Gojek app to check the fare for each ride and I paid him that in cash plus some tips. I'd recommend doing the same, for example if you stay in Canggu/Seminyak and plan to do long day trips to places like Ubud and Uluwatu.
+For transportation, if you have a license for scooters it's definitely better to rent a scooter, though the traffic is pretty chaotic and you'd need decent skill to maneuver without hitting something. I technically have a Japanese driver's license that comes with a small scooter license up to 75cc, but Bali scooters are usually 125cc. This means it's technically illegal for me to drive them and travel insurance won't cover it, so I opted for just using the Gojek / Grab apps. I heard some people don't care and drive them anyway without the license, which I'm not really willing to risk. I ended up getting along with one of the car drivers I met on Gojek, and used his private service throughout the rest of my stay. Gojek takes a 20% margin, so if you pay the driver in cash plus some tips, it'd be a great deal for the driver. For reference, Canggu to Uluwatu Temple was around 400k IDR one way, and Canggu to the Tegallalang rice terraces was about 332.5k on Gojek, so Ubud day trips end up a bit more. After exchanging WhatsApp, we just used the Gojek app to check the fare for each ride and I paid him that in cash plus some tips. I'd recommend doing the same, for example if you stay around Canggu and plan to do long day trips to places like Ubud and Uluwatu.
 
 #### The nomad scene
 
