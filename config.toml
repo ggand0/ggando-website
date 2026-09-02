@@ -49,6 +49,7 @@ display_bio = true
 display_avatar = true
 projects_page = true                  # Display projects page
 til_page = true
+travel_page = true
 
 recent = false
 recent_max = 5
@@ -58,6 +59,7 @@ sections = [
     { name = "blog", path = "/blog", is_external = false },
     { name = "projects", path = "/projects", is_external = false },
     { name = "notes", path = "/til", is_external = false },
+    { name = "travel", path = "/travel", is_external = false },
     # { name = "about", path = "/about", is_external = false },
     # { name = "github", path = "https://github.com/<your-username>", is_external = true },
 ]
