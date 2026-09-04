@@ -8,7 +8,7 @@ draft = false
 thumb = "https://ggando.b-cdn.net/viewskater0_640.jpg"
 
 [taxonomies]
-categories = ["blog"]
+categories = ["blog", "tech"]
 tags = ["rust", "wgpu", "iced"]
 +++
 

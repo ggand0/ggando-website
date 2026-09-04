@@ -8,7 +8,7 @@ draft = false
 thumb = "https://ggando.b-cdn.net/mitvision_640px.jpg"
 
 [taxonomies]
-categories = ["blog"]
+categories = ["blog", "tech"]
 tags = ["computer vision"]
 +++
 

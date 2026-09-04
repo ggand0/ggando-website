@@ -5,7 +5,7 @@ date = 2025-12-14
 draft = false
 
 [taxonomies]
-categories = ["til", "amd", "linux"]
+categories = ["til", "amd", "linux", "tech"]
 tags = ["blog"]
 +++
 

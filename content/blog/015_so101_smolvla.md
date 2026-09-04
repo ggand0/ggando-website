@@ -8,7 +8,7 @@ draft = false
 thumb = "https://ggando.b-cdn.net/so101_smolvla_640.jpg"
 
 [taxonomies]
-categories = ["blog"]
+categories = ["blog", "tech"]
 tags = ["robotics", "vla", "so-101", "lerobot"]
 +++
 

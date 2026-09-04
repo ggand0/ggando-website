@@ -1,4 +1,7 @@
 {
   "buildCommand": "bash scripts/vercel-build.sh",
-  "outputDirectory": "public"
+  "outputDirectory": "public",
+  "rewrites": [
+    { "source": "/tech/feed.xml", "destination": "/categories/tech/feed.xml" }
+  ]
 }

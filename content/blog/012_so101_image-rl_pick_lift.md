@@ -6,7 +6,7 @@ draft = false
 [extra]
 thumb = "https://ggando.b-cdn.net/so101_image-rl_lift_640.jpg"
 [taxonomies]
-categories = ["blog"]
+categories = ["blog", "tech"]
 tags = ["rl", "robotics", "mujoco", "so101"]
 +++
 

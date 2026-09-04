@@ -8,7 +8,7 @@ draft = false
 thumb = "https://ggando.b-cdn.net/zola_cropped1.jpg"
 
 [taxonomies]
-categories = ["blog"]
+categories = ["blog", "tech"]
 tags = ["rust"]
 +++
 

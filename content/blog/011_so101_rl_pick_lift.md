@@ -8,7 +8,7 @@ draft = false
 thumb = "https://ggando.b-cdn.net/so101_lift_640.jpg"
 
 [taxonomies]
-categories = ["blog"]
+categories = ["blog", "tech"]
 tags = ["rl", "mujoco", "robotics", "python"]
 +++
 

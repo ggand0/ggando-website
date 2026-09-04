@@ -8,7 +8,7 @@ draft = false
 thumb = "https://ggando.b-cdn.net/rust_appstore_16x9_moz.jpg"
 
 [taxonomies]
-categories = ["blog"]
+categories = ["blog", "tech"]
 tags = ["rust", "mac", "winit"]
 +++
 

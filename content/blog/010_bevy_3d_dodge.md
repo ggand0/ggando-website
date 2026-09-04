@@ -9,7 +9,7 @@ draft = false
 thumb = "https://ggando.b-cdn.net/bevy_rl_game_v2_640.jpg"
 
 [taxonomies]
-categories = ["blog"]
+categories = ["blog", "tech"]
 tags = ["rust", "bevy", "rl", "python"]
 +++
 

@@ -8,7 +8,7 @@ draft = false
 thumb = "https://ggando.b-cdn.net/bevy_gpu_particles_640.jpg"
 
 [taxonomies]
-categories = ["til"]
+categories = ["til", "tech"]
 tags = ["rust", "bevy", "gamedev", "shader"]
 +++
 

@@ -5,7 +5,7 @@ date = 2025-02-20
 draft = false
 
 [taxonomies]
-categories = ["til"]
+categories = ["til", "tech"]
 tags = ["rust"]
 +++
 
