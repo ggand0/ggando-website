@@ -18,6 +18,9 @@
     "/>
 	<updated>{{ last_updated | date(format="%+") }}</updated>
 	<id>{{ feed_url | safe }}</id>
+	<author>
+		<name>{{ config.extra.name }}</name>
+	</author>
 	{%- for page in pages %}
 	<entry xml:lang="{{ page.lang }}">
 		<title>{{ page.title }}</title>
