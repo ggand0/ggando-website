@@ -28,11 +28,11 @@
       <div class="flex items-center gap-3">
         {% if section.path and section.path != "/projects/" %}
         {% set rss_icon = load_data(path="static/icon/rss.svg") %}
-        {% if section.generate_feed -%}
+        {% if section.generate_feeds -%}
         <a href="{{ config.base_url }}{{ section.path }}feed.xml" aria-label="rss feed" target="_blank">
           <span class="w-6 h-6">{{ rss_icon | safe }}</span>
         </a>
-        {% elif config.generate_feed -%}
+        {% elif config.generate_feeds -%}
         <a href="{{ config.base_url }}/{{ config.feed_filenames[0] }}" aria-label="rss feed" target="_blank">
           <span class="w-6 h-6">{{ rss_icon | safe }}</span>
         </a>
