@@ -20,3 +20,7 @@ fi
 "${BIN_DIR}/zola" --version
 npm run build
 "${BIN_DIR}/zola" build
+
+# Expose the tech category feed at the friendly /tech/feed.xml URL.
+mkdir -p public/tech
+cp public/categories/tech/feed.xml public/tech/feed.xml

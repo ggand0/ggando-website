@@ -1,7 +1,8 @@
 {
   "buildCommand": "bash scripts/vercel-build.sh",
   "outputDirectory": "public",
-  "rewrites": [
-    { "source": "/tech/feed.xml", "destination": "/categories/tech/feed.xml" }
+  "redirects": [
+    { "source": "/tech", "destination": "/categories/tech/" },
+    { "source": "/tech/", "destination": "/categories/tech/" }
   ]
 }
